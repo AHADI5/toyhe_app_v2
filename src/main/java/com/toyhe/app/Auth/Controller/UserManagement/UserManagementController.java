@@ -36,6 +36,6 @@ public record UserManagementController(
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Test successful");
+        return ResponseEntity.ok("Test successful , with deployment");
     }
 }
