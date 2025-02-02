@@ -34,7 +34,7 @@ public record AccessRightControllers(
 
     @GetMapping("accessRights/{userRoleName}")
     public List<AccessRightResponse> getAccessRightsByUSerRoleName(@PathVariable String userRoleName, HttpServletRequest httpServletRequest) {
-         //checkAccess.checkAccess(httpServletRequest, modelName, "READ");
+        checkAccess.checkAccess(httpServletRequest, modelName, "READ");
         return accessRightService.getAccessRightsByUserRole(userRoleName) ;
     }
 
