@@ -32,10 +32,10 @@ public record AccessRightControllers(
 
     }
 
-    @GetMapping("accessRights/{userName}")
-    public List<AccessRightResponse> getAccessRightsForUser(@PathVariable String userName, HttpServletRequest httpServletRequest) {
-        checkAccess.checkAccess(httpServletRequest, modelName, "READ");
-        return accessRightService.getAccessRightsByUsername(userName) ;
+    @GetMapping("accessRights/{userRoleName}")
+    public List<AccessRightResponse> getAccessRightsByUSerRoleName(@PathVariable String userRoleName, HttpServletRequest httpServletRequest) {
+         //checkAccess.checkAccess(httpServletRequest, modelName, "READ");
+        return accessRightService.getAccessRightsByUserRole(userRoleName) ;
     }
 
     @GetMapping("/{accessID}")

@@ -3,6 +3,7 @@ package com.toyhe.app.Auth.Services;
 import com.toyhe.app.Auth.Dtos.Requests.AccessRightsRequest;
 import com.toyhe.app.Auth.Dtos.Requests.NewExternalUserRequest;
 import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.UserRoleAssignementRequest;
 import com.toyhe.app.Auth.Dtos.Responses.AccessRightResponse;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
 import com.toyhe.app.Auth.Model.*;
@@ -26,24 +27,24 @@ public class UserManagementService {
     final AddressRepository addressRepository ;
 
     final UserService userService;
+    private final UserRoleService userRoleService;
 
     public UserManagementService(UserRepository userRepository,
                                  PasswordEncoder passWordEncoder,
                                  AddressRepository addressRepository,
-                                 UserService userService) {
+                                 UserService userService, UserRoleService userRoleService) {
         this.userRepository = userRepository;
         this.passWordEncoder = passWordEncoder;
         this.addressRepository = addressRepository;
         this.userService = userService;
+        this.userRoleService = userRoleService;
     }
 
-    @Transactional
     public NewAccountResponse createExternalUser(NewExternalUserRequest request) {
 
         // Create a new ExternalUser using the provided request data
         ExternalUser externalUser = ExternalUser
                 .builder()
-                .role(Role.LAMBDAUSER)
                 .email(request.email())
                 .password(passWordEncoder.encode(request.password()))
                 .enabled(true)
@@ -59,9 +60,9 @@ public class UserManagementService {
         Address savedAddress = addressRepository.save(request.address());
         externalUser.setAddress(savedAddress);
         ExternalUser savedExternalUser = userRepository.save(externalUser);
-        //Grant User Access Rights
 
-        userService.grantUserAccessRights(request.authorities(), savedExternalUser);
+        //Assigning Roles to the user
+        assignRoleToAUser(externalUser.getUsername() , request.rolesId());
         userRepository.save(savedExternalUser);
 
         return new NewAccountResponse(
@@ -73,19 +74,7 @@ public class UserManagementService {
     }
 
     public  NewAccountResponse createInUser (NewInUserRequest request) {
-        // Default role
-        Role role = Role.LAMBDAUSER;
-        switch (request.role().toString()) {
-            case "Director":
-                role = Role.DIRECTOR;
-                break;
-            case "Admin":
-                role = Role.ADMIN;
-                break;
-            // Add cases for other roles as needed
-            default:
-                System.out.println("Unknown role: " + request.role());
-        }
+
 
         InUser inUser = InUser
                 .builder()
@@ -98,14 +87,13 @@ public class UserManagementService {
                 .password(passWordEncoder.encode(request.password()))
                 .enabled(true)
                 .createdAt(new Date())
-                .role(role)
                 .build();
         Address savedAddress = addressRepository.save(request.address());
         inUser.setAddress(savedAddress);
         InUser savedInUser =  userRepository.save(inUser);
-        //Grant User Access Rights
-        log.info("Access right request {}", request.accessRightsRequests());
-        userService.grantUserAccessRights(request.accessRightsRequests(), savedInUser);
+        //Assign User to Role
+        assignRoleToAUser(savedInUser.getUsername() , request.rolesId());
+
         userRepository.save(savedInUser);
 
         return new NewAccountResponse(
@@ -113,6 +101,15 @@ public class UserManagementService {
                 inUser.getPassword()
         );
 
+    }
+
+    public  void assignRoleToAUser(String userName, List<Long> rolesId) {
+        //Assign user to the existing Role
+        UserRoleAssignementRequest  userRoleAssignementRequest = new UserRoleAssignementRequest(
+                userName,
+                rolesId
+        ) ;
+        userRoleService.assignUserRolesToAUser(userRoleAssignementRequest) ;
     }
 
 }

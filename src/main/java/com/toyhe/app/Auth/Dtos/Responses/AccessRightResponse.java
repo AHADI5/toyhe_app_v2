@@ -7,7 +7,7 @@ public record AccessRightResponse(
         long accessRightID  ,
         long modelID  ,
         String modelName,
-        String userName  ,
+        String roleName  ,
         AccessOperation accessOperation
 
 )  {

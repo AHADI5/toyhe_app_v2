@@ -11,7 +11,7 @@ public record NewExternalUserRequest(
         String email,
         String password,
         Address address ,
-        List<AccessRightsRequest> authorities ,
+        List<Long> rolesId  ,
 
         String phoneNumber,
 

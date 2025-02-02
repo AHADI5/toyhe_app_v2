@@ -15,6 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -50,10 +51,11 @@ public class SecurityConfiguration {
         config.setAllowCredentials(true);
 
         // Add a list of allowed origins
-        config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",
+        config.setAllowedOrigins(List.of(
+
                 "https://toyhev2.netlify.app",
                 "http://localhost:5173"
+
         ));
 
         config.addAllowedHeader("*");

@@ -1,9 +1,8 @@
 package com.toyhe.app.Auth.Dtos.Requests;
 
 public record AccessRightsRequest(
-        long modelID  ,
-        String userName ,
+        long modelID ,
+        long roleID ,
         AccessOperation accessOperation
-
 ) {
 }

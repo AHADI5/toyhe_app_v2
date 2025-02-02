@@ -3,16 +3,15 @@ package com.toyhe.app.Auth.Model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
 
 @Entity
 @Data
@@ -20,43 +19,55 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @SuperBuilder
 @Table(name = "app_user")
+@Slf4j
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;
-    private String email;
-    private String password;
-    private boolean enabled;
-    private Date createdAt;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(unique = true, name = "user_name", nullable = false)
+    private String email;
+
+    private String password;
+
+    private boolean enabled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AccessRights> modulePermissions;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(
+            name = "user_role_assoc",
+            joinColumns = @JoinColumn(name = "user_id"), // Corrected column names
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<UserRole> userRoles = new ArrayList<>();  // Changed to Set to avoid duplicates
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Convert role to GrantedAuthority
-        List<GrantedAuthority> roleAuthority = new ArrayList<>(List.of(new SimpleGrantedAuthority(role.name())));
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // Convert module permissions to GrantedAuthority
-        List<GrantedAuthority> moduleAuthorities = modulePermissions.stream()
-                .map(permission -> new SimpleGrantedAuthority(
-                        "MODEL_" + permission.getModel().getModelName().toUpperCase() + "_" +
-                                (permission.isAccessRead() ? "READ" : "") +
-                                (permission.isAccessWrite() ? "_WRITE" : "") +
-                                (permission.isAccessUpdate() ? "_UPDATE" : "") +
-                                (permission.isAccessDelete() ? "_DELETE" : "")))
-                .collect(Collectors.toList());
+        // Convert role names to GrantedAuthority
+        for (UserRole role : userRoles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+            // Add module permissions as authorities
+            authorities.addAll(role.getModulePermissions().stream()
+                    .map(permission -> new SimpleGrantedAuthority(
+                            "MODEL_" + permission.getModel().getModelName().toUpperCase() + "_" +
+                                    (permission.isAccessRead() ? "READ" : "") +
+                                    (permission.isAccessWrite() ? "_WRITE" : "") +
+                                    (permission.isAccessUpdate() ? "_UPDATE" : "") +
+                                    (permission.isAccessDelete() ? "_DELETE" : "")))
+                    .toList());
+        }
 
-        // Combine role and module permissions
-        roleAuthority.addAll(moduleAuthorities);
-        return roleAuthority;
+        return authorities;
     }
 
     @Override
@@ -66,17 +77,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;  // Assume account never expires for simplicity
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;  // Assume account never locked for simplicity
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;  // Assume credentials never expire for simplicity
+        return true;
     }
 
     @Override
