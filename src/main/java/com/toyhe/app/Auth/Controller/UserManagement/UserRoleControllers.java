@@ -35,4 +35,9 @@ public record UserRoleControllers(
         return  userRoleService.assignUserRolesToAUser(userRoleAssignementRequest)  ;
     }
 
+    @GetMapping("/userRoles/{userName}")
+    public String getUserRoleByUserName(@PathVariable String userName) {
+        return userRoleService.getUserRoles(userName)  ;
+    }
+
 }
