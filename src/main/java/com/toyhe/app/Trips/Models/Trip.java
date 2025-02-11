@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,12 +27,9 @@ public class Trip {
     Days days ;
     @ManyToOne
     Boat boat ;
-    @ManyToOne
-    BoatClass boatClass ;
-
+    @OneToMany
+    List<BoatClass> boatClasses ;
     TripType type  ;
     double price ;
     TripStatus status ;
-    LocalDateTime startDate ;
-    LocalDateTime endDate ;
 }
