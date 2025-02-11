@@ -78,12 +78,28 @@ public class UserRoleService{
 
         // Fetch roles from database
         List<UserRole> newRoles = new ArrayList<>(userRoleRepository.findAllById(request.userRoleIds()));
-        log.info("Fetched new roles: {}", newRoles);
+        log.info("Fetched new roles: {}", newRoles.stream().map(UserRole::getRoleName).toList());
+        log.info("Existing roles: {}",
+                user.getUserRoles() != null
+                        ? user.getUserRoles().stream().map(UserRole::getRoleDescription).toList()
+                        : "No existing roles");
 
-        // Merge new roles with the user's existing roles
-        // Ensure the collection is not null (it should be initialized in the entity)
-        Set<UserRole> mergedRoles = new HashSet<>(user.getUserRoles());
-        mergedRoles.addAll(newRoles);
+// Check if the existing roles are null
+        Set<UserRole> mergedRoles;
+        if (user.getUserRoles() == null) {
+            // If null, initialize with new roles
+            mergedRoles = new HashSet<>(newRoles);
+            log.info("No existing roles found. Adding new roles: {}", newRoles.stream().map(UserRole::getRoleName).toList());
+        } else {
+            // Merge new roles with existing roles
+            mergedRoles = new HashSet<>(user.getUserRoles());
+            mergedRoles.addAll(newRoles);
+            log.info("Merged roles: {}", mergedRoles.stream().map(UserRole::getRoleName).toList());
+        }
+
+// Update the user's roles
+        user.setUserRoles(new ArrayList<>(mergedRoles));
+
 
         log.info("Merged roles: {}", mergedRoles.stream().toList());
 
