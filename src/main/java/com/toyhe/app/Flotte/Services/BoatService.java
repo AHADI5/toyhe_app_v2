@@ -2,6 +2,7 @@ package com.toyhe.app.Flotte.Services;
 
 import com.toyhe.app.Flotte.Dtos.Boat.BoatRegisterRequest;
 import com.toyhe.app.Flotte.Dtos.Boat.BoatRegisterResponse;
+import com.toyhe.app.Flotte.Dtos.Boat.BoatResponse;
 import com.toyhe.app.Flotte.Dtos.BoatClasses.BoatClassRegisterRequest;
 import com.toyhe.app.Flotte.Models.Boat;
 import com.toyhe.app.Flotte.Models.BoatClass;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public record BoatService(
@@ -50,7 +52,7 @@ public record BoatService(
         List<BoatClass> boatClassList =  boatClassService.registerBoatClass(boatClassRegisterLists).getBody() ;
         boat.setBoatClasses(boatClassList);
         boat = boatRepository.save(boat);
-        return (ResponseEntity.ok(BoatRegisterResponse.fromBoatClassToResponseDTO(boat))) ;
+        return (ResponseEntity.ok(BoatRegisterResponse.fromBoatToResponseDTO(boat))) ;
     }
 
     //Helper methods
@@ -79,4 +81,46 @@ public record BoatService(
     }
 
 
+    public ResponseEntity<List<BoatResponse>> getAllBoats() {
+        List<Boat> boats = boatRepository.findAll();
+        List<BoatResponse> boatRegisterResponses = new ArrayList<>();
+        for (Boat boat : boats) {
+            BoatRegisterResponse.fromBoatToResponseDTO(boat);
+            boatRegisterResponses.add(BoatResponse.fromBoat(boat));
+        }
+
+        return ResponseEntity.ok(boatRegisterResponses);
+    }
+
+    public ResponseEntity<BoatResponse> getBoatByID(long boatID) {
+        Optional<Boat> boat = boatRepository.findById(boatID) ;
+
+        if(boat.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(BoatResponse.fromBoat(boat.get()));
+
+    }
+
+    public ResponseEntity<BoatResponse> updateBoat(long boatID, BoatRegisterRequest newBoat) {
+        Optional<Boat> boat = boatRepository.findById(boatID);
+        if(boat.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Boat existingBoat = boat.get();
+        existingBoat.setName(newBoat.name());
+        existingBoat.setAbbreviation(generateAbbreviation(newBoat.name()));
+        existingBoat.setNumMatriculation(newBoat.numMatriculation());
+        existingBoat.setMotorType(newBoat.motorType());
+        existingBoat.setFabricationDate(newBoat.fabricationDate());
+        existingBoat.setBoatCategory(newBoat.boatCategory());
+        existingBoat.setBoatWeight(newBoat.boatWeight());
+        existingBoat.setSupportedWeight(newBoat.supportedWeight());
+
+        Boat updatedBoat = boatRepository.save(existingBoat);
+
+        return ResponseEntity.ok(BoatResponse.fromBoat(updatedBoat));
+
+
+    }
 }

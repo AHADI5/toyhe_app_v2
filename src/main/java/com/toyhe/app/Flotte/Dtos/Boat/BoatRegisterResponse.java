@@ -8,7 +8,7 @@ public record BoatRegisterResponse(
         String abbreviation
 ) {
 
-    public static BoatRegisterResponse fromBoatClassToResponseDTO  (Boat boat) {
+    public static BoatRegisterResponse fromBoatToResponseDTO  (Boat boat) {
 
         return new BoatRegisterResponse(
                 boat.getBoatID(),
