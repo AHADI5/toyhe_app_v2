@@ -54,7 +54,6 @@ public record TripService(
                 .departureDateTime(tripRegisterRequest.departureDate())
                 .arrivalDateTime(tripRegisterRequest.arrvialDate())
                 .boat((Boat) boat.get())
-                .boatClass((BoatClass) boatClass.get())
                 .type(tripType)
                 .price(0)
                 .status(TripStatus.SCHEDULED)

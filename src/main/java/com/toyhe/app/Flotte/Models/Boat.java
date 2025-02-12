@@ -1,10 +1,7 @@
 package com.toyhe.app.Flotte.Models;
 
 import com.toyhe.app.Trips.Models.Trip;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Boat {
     @Id
-    private Long boatID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long boatID;
     private Date registeredDate;
     private String name;
     private String abbreviation  ;

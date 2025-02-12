@@ -70,7 +70,7 @@ public record TicketService(
                 ticket.getReservationDate(),
                 ticket.getTrip().getDepartureDateTime(),
                 ticket.getBoat().getName(),
-                ticket.getTrip().getBoatClass(),
+             null ,
                 ticket.getTrip().getPrice()
         );
 

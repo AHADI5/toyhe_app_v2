@@ -25,7 +25,5 @@ public class BoatClass {
     @ManyToOne
     @JoinColumn(name = "boat_id")
     private Boat boat;
-
-    @OneToMany(mappedBy = "boatClass", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trip> tripList;
+    double boatClassPrice ;
 }

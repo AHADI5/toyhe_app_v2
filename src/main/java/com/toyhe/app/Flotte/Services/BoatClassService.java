@@ -1,6 +1,7 @@
 package com.toyhe.app.Flotte.Services;
 
 import com.toyhe.app.Flotte.Dtos.BoatClasses.BoatClassRegisterRequest;
+import com.toyhe.app.Flotte.Dtos.BoatClasses.BoatClassResponse;
 import com.toyhe.app.Flotte.Models.Boat;
 import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Flotte.Repositories.BoatClassRepository;
@@ -46,5 +47,43 @@ public record BoatClassService(
 
         // Return the list of registered BoatClass objects
         return ResponseEntity.ok(savedBoatClasses);
+    }
+
+    public ResponseEntity<List<BoatClassResponse>> getBoatClasses(long boatID) {
+        Boat boat = boatRepository.findById(boatID).orElse(null);
+        assert boat != null;
+        List<BoatClass> boatClasses = boat.getBoatClasses();
+        List<BoatClassResponse> boatClassResponses = new ArrayList<>();
+        for (BoatClass boatClass : boatClasses) {
+            boatClassResponses.add(BoatClassResponse.fromBoatClassToDTO(boatClass));
+        }
+        return ResponseEntity.ok(boatClassResponses);
+    }
+
+    public ResponseEntity<BoatClassResponse> addBoatClassToABoat(long boatID , BoatClassRegisterRequest boatClassRegisterRequest) {
+        Boat boat = boatRepository.findById(boatID).orElse(null);
+        assert boat != null;
+        BoatClass boatClass = BoatClass.builder()
+                .name(boatClassRegisterRequest.name())
+                .placesNumber(boatClassRegisterRequest.placesNumber())
+                .boat(boat)
+                .boatClassPrice(0)
+                .build();
+        BoatClass savedBoatClass  = boatClassRepository.save(boatClass);
+        return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(savedBoatClass));
+
+    }
+
+    public ResponseEntity<BoatClassResponse> updateClassBoat(
+            long boatClassID,
+            BoatClassRegisterRequest boatClassRegisterRequest) {
+        BoatClass existingBoatClass = boatClassRepository.findById(boatClassID).orElse(null);
+        assert existingBoatClass != null;
+        existingBoatClass.setName(boatClassRegisterRequest.name());
+        existingBoatClass.setPlacesNumber(boatClassRegisterRequest.placesNumber());
+        existingBoatClass.setBoatClassPrice(boatClassRegisterRequest.priceListID()) ;
+        existingBoatClass = boatClassRepository.save(existingBoatClass);
+
+        return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(existingBoatClass));
     }
 }
