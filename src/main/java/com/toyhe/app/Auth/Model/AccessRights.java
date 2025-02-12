@@ -16,8 +16,7 @@ public class AccessRights {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id" , nullable = false)
-    private User user ;
+    private UserRole userRole ;
 
     @ManyToOne
     @JoinColumn(name =  "model_id")
@@ -30,6 +29,4 @@ public class AccessRights {
     private  boolean accessWrite ;
     private  boolean accessUpdate ;
     private  boolean accessDelete ;
-
-
 }

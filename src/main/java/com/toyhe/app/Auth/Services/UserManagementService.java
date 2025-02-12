@@ -3,6 +3,7 @@ package com.toyhe.app.Auth.Services;
 import com.toyhe.app.Auth.Dtos.Requests.AccessRightsRequest;
 import com.toyhe.app.Auth.Dtos.Requests.NewExternalUserRequest;
 import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.UserRoleAssignementRequest;
 import com.toyhe.app.Auth.Dtos.Responses.AccessRightResponse;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
 import com.toyhe.app.Auth.Model.*;
@@ -11,39 +12,38 @@ import com.toyhe.app.Auth.Repositories.AddressRepository;
 import com.toyhe.app.Auth.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class UserManagementService {
-    final UserRepository userRepository ;
+    final UserRepository userRepository;
     private final PasswordEncoder passWordEncoder;
-    final AddressRepository addressRepository ;
-
+    final AddressRepository addressRepository;
     final UserService userService;
+    private final ApplicationContext context; // Added for proxy calls
 
     public UserManagementService(UserRepository userRepository,
                                  PasswordEncoder passWordEncoder,
                                  AddressRepository addressRepository,
-                                 UserService userService) {
+                                 UserService userService,
+                                 UserRoleService userRoleService,
+                                 ApplicationContext context) {
         this.userRepository = userRepository;
         this.passWordEncoder = passWordEncoder;
         this.addressRepository = addressRepository;
         this.userService = userService;
+        this.context = context; // Initialize context
     }
 
-    @Transactional
     public NewAccountResponse createExternalUser(NewExternalUserRequest request) {
-
-        // Create a new ExternalUser using the provided request data
-        ExternalUser externalUser = ExternalUser
-                .builder()
-                .role(Role.LAMBDAUSER)
+        ExternalUser externalUser = ExternalUser.builder()
                 .email(request.email())
                 .password(passWordEncoder.encode(request.password()))
                 .enabled(true)
@@ -53,66 +53,46 @@ public class UserManagementService {
                 .phoneNumber(request.phoneNumber())
                 .gender(request.gender())
                 .dateOfBirth(request.dateOfBirth())
-                .gender(request.gender())
                 .build();
 
         Address savedAddress = addressRepository.save(request.address());
         externalUser.setAddress(savedAddress);
-        ExternalUser savedExternalUser = userRepository.save(externalUser);
-        //Grant User Access Rights
+        ExternalUser savedExternalUser = userRepository.saveAndFlush(externalUser);
 
-        userService.grantUserAccessRights(request.authorities(), savedExternalUser);
-        userRepository.save(savedExternalUser);
+        // Assign roles using proxy to ensure transactional behavior
+        assignRoleToAUser(savedExternalUser.getUsername(), request.rolesId());
 
-        return new NewAccountResponse(
-                externalUser.getEmail() ,
-                externalUser.getPassword()
-        );
-
-        //Register access rights if defined On User Creation
+        return new NewAccountResponse(externalUser.getEmail(), externalUser.getPassword());
     }
 
-    public  NewAccountResponse createInUser (NewInUserRequest request) {
-        // Default role
-        Role role = Role.LAMBDAUSER;
-        switch (request.role().toString()) {
-            case "Director":
-                role = Role.DIRECTOR;
-                break;
-            case "Admin":
-                role = Role.ADMIN;
-                break;
-            // Add cases for other roles as needed
-            default:
-                System.out.println("Unknown role: " + request.role());
-        }
-
-        InUser inUser = InUser
-                .builder()
+    public NewAccountResponse createInUser(NewInUserRequest request) {
+        InUser inUser = InUser.builder()
                 .department(request.service())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .phoneNumber(request.phoneNumber())
                 .email(request.email())
-                .phoneNumber(request.phoneNumber())
                 .password(passWordEncoder.encode(request.password()))
                 .enabled(true)
                 .createdAt(new Date())
-                .role(role)
                 .build();
+
         Address savedAddress = addressRepository.save(request.address());
         inUser.setAddress(savedAddress);
-        InUser savedInUser =  userRepository.save(inUser);
-        //Grant User Access Rights
-        log.info("Access right request {}", request.accessRightsRequests());
-        userService.grantUserAccessRights(request.accessRightsRequests(), savedInUser);
-        userRepository.save(savedInUser);
+        InUser savedInUser = userRepository.saveAndFlush(inUser);
 
-        return new NewAccountResponse(
-                inUser.getEmail() ,
-                inUser.getPassword()
-        );
+        // Assign roles using proxy to ensure transactional behavior
+        assignRoleToAUser(savedInUser.getUsername(), request.rolesId());
 
+        return new NewAccountResponse(inUser.getEmail(), inUser.getPassword());
     }
 
+    public void assignRoleToAUser(String userName, List<Long> rolesId) {
+        UserRoleAssignementRequest userRoleAssignementRequest = new UserRoleAssignementRequest(
+                userName,
+                rolesId
+        );
+        // Use ApplicationContext to ensure transactional proxy is active
+        context.getBean(UserRoleService.class).assignUserRolesToAUser(userRoleAssignementRequest);
+    }
 }

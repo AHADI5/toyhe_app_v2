@@ -13,7 +13,7 @@ public record NewInUserRequest(
         Address address ,
         String email,
         String password,
-        List<AccessRightsRequest>  accessRightsRequests  ,
+        List<Long> rolesId  ,
 
         String phoneNumber,
 

@@ -15,13 +15,13 @@ public record UserManagementController(
         UserManagementService userManagementService  ,
         CheckAccess   checkAccess
 ) {
-    static  String modelName = "Users" ;
+    static  String modelName = "USER" ;
     @PostMapping("/in_user")
     public NewAccountResponse registerNewInAccount(@RequestBody
                                                    NewInUserRequest newInUserRequest ,
                                                    HttpServletRequest httpServletRequest
                                                    ) {
-        checkAccess.checkAccess(httpServletRequest, modelName, "WRITE_UPDATE");
+        checkAccess.checkAccess(httpServletRequest, "INUSER", "WRITE_UPDATE");
         return userManagementService.createInUser(newInUserRequest);
 
     }

@@ -5,9 +5,11 @@ import com.toyhe.app.Auth.Dtos.Responses.AccessRightResponse;
 import com.toyhe.app.Auth.Model.AccessRights;
 import com.toyhe.app.Auth.Model.Model;
 import com.toyhe.app.Auth.Model.User;
+import com.toyhe.app.Auth.Model.UserRole;
 import com.toyhe.app.Auth.Repositories.AccessRightsRepository;
 import com.toyhe.app.Auth.Repositories.ModelRespository;
 import com.toyhe.app.Auth.Repositories.UserRepository;
+import com.toyhe.app.Auth.Repositories.UserRoleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,22 +23,26 @@ import java.util.Optional;
 public record AccessRightService(
         AccessRightsRepository accessRightsRepository,
         UserRepository userRepository,
-        ModelRespository modelRespository
+        ModelRespository modelRespository ,
+        UserRoleRepository userRoleRepository
 ) {
 
     /**
-     * Grants access rights to a user for a specific model and operation.
+     * Grants access rights to a userRole (group of users )  for a specific model and operation.
      *
-     * @param accessRightsRequest the request containing user, model, and operation details.
+     * @param accessRightsRequest the request containing role, model, and operation details.
      * @return a ResponseEntity containing the granted access right details.
      */
     public ResponseEntity<AccessRightResponse> grantAccessRight(AccessRightsRequest accessRightsRequest) {
-        // Fetch the user by email
-        Optional<User> user = userRepository.findByEmail(accessRightsRequest.userName());
-        if (user.isEmpty()) {
-            log.info("User not found");
+        // Fetch the role by id
+        Optional<UserRole> userRole = userRoleRepository.findById(accessRightsRequest.roleID());
+
+        if (userRole.isEmpty()) {
+            log.info("User Role not found");
             return ResponseEntity.badRequest().body(null);
         }
+
+        log.info("userRole found: {}", userRole.get());
 
         // Fetch the model by ID
         Optional<Model> model = modelRespository.findById(accessRightsRequest.modelID());
@@ -47,7 +53,7 @@ public record AccessRightService(
 
         // Create and save the AccessRights entity
         AccessRights accessRights = AccessRights.builder()
-                .user(user.get())
+                .userRole(userRole.get())
                 .model(model.get())
                 .accessRead(accessRightsRequest.accessOperation().read() == 1)
                 .accessWrite(accessRightsRequest.accessOperation().write() == 1)
@@ -62,7 +68,7 @@ public record AccessRightService(
                 savedAccessRights.getId(),
                 savedAccessRights.getModel().getModelID(),
                 savedAccessRights.getModel().getModelName(),
-                savedAccessRights.getUser().getUsername() ,
+                savedAccessRights.getUserRole().getRoleName() ,
                 new AccessOperation(
                         savedAccessRights.isAccessRead() ? 1 : 0 ,
                         savedAccessRights.isAccessWrite() ?  1 :0  ,
@@ -90,7 +96,7 @@ public record AccessRightService(
                accessRights.getId()  ,
                accessRights.getModel().getModelID() ,
                accessRights.getModel().getModelName() ,
-               accessRights.getUser().getUsername() ,
+               accessRights.getUserRole().getRoleName() ,
                new AccessOperation(
                        accessRights.isAccessRead() ? 1 : 0 ,
                        accessRights.isAccessWrite() ? 1 : 0  ,
@@ -124,7 +130,7 @@ public record AccessRightService(
                     accessRights.getId(),
                     accessRights.getModel().getModelID(),
                     accessRights.getModel().getModelName(),
-                    accessRights.getUser().getUsername(),
+                    accessRights.getUserRole().getRoleName(),
                     new AccessOperation(
                             accessRights.isAccessRead() ? 1 : 0,
                             accessRights.isAccessWrite() ? 1 : 0,
@@ -148,7 +154,7 @@ public record AccessRightService(
                 accessRights.getId(),
                 accessRights.getModel().getModelID(),
                 accessRights.getModel().getModelName(),
-                accessRights.getUser().getUsername(),
+                accessRights.getUserRole().getRoleName(),
                 new AccessOperation(
                         accessRights.isAccessRead() ? 1 : 0,
                         accessRights.isAccessWrite() ? 1 : 0,
@@ -158,10 +164,9 @@ public record AccessRightService(
         );
     }
 
-    public List<AccessRightResponse> getAccessRightsByUsername(String userName) {
-        User user  = userRepository.findByEmail(userName).orElse(null);
-        List<AccessRights> accessRights = accessRightsRepository.findAccessRightsByUser(user);
+    public List<AccessRightResponse> getAccessRightsByUserRole(String userRoleName) {
+        UserRole userRole  = userRoleRepository.findUserRoleByRoleName(userRoleName) ;
+        List<AccessRights> accessRights = accessRightsRepository.findAccessRightsByUserRole(userRole);
         return convertToAccessRightResponses(accessRights);
-
     }
 }
