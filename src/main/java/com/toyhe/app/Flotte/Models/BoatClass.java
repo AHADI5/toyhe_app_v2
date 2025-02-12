@@ -25,4 +25,5 @@ public class BoatClass {
     @ManyToOne
     @JoinColumn(name = "boat_id")
     private Boat boat;
+    double boatClassPrice ;
 }

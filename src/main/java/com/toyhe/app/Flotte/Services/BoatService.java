@@ -17,6 +17,7 @@ import java.util.List;
 public record BoatService(
         BoatRepository boatRepository  ,
         BoatClassService boatClassService
+
 ) {
     public ResponseEntity<BoatRegisterResponse> registerBoat(BoatRegisterRequest boatRegisterRequest) {
 
@@ -34,21 +35,22 @@ public record BoatService(
         //Registering Boat Classes
         //Constructing the Request by injecting the realID in it
         List <BoatClassRegisterRequest> boatClassRegisterLists  =  new ArrayList<>();
+        //TODO : COMPUTE THE CLASS PRICE FROM THE PRICE LIST SET
         for (BoatClassRegisterRequest boatClass : boatRegisterRequest.boatClassList())  {
             boatClassRegisterLists.add(
                     new BoatClassRegisterRequest(
-                            boatClass.boatClassID() ,
                             boatClass.name()  ,
                             boatClass.placesNumber()  ,
-                            boat.getBoatID()
+                            boat.getBoatID() ,
+                            boatClass.priceListID()
                     )
             ) ;
         }
+
         List<BoatClass> boatClassList =  boatClassService.registerBoatClass(boatClassRegisterLists).getBody() ;
         boat.setBoatClasses(boatClassList);
         boat = boatRepository.save(boat);
-
-        return (ResponseEntity.ok(fromBoatClassToResponseDTO(boat))) ;
+        return (ResponseEntity.ok(BoatRegisterResponse.fromBoatClassToResponseDTO(boat))) ;
     }
 
     //Helper methods
@@ -76,12 +78,5 @@ public record BoatService(
         }
     }
 
-    public BoatRegisterResponse fromBoatClassToResponseDTO  (Boat boat) {
 
-         return new BoatRegisterResponse(
-                 boat.getBoatID(),
-                 boat.getName() ,
-                 boat.getAbbreviation()
-         ) ;
-    }
 }

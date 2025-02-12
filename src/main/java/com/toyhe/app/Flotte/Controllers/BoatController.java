@@ -22,7 +22,6 @@ public record BoatController(
             @RequestBody BoatRegisterRequest boatRegisterRequest ,
             HttpServletRequest httpServletRequest) {
         return  boatService.registerBoat(boatRegisterRequest) ;
-
     }
 
 }
