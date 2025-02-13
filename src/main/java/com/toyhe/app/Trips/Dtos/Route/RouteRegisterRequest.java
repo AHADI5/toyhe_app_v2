@@ -1,4 +1,8 @@
 package com.toyhe.app.Trips.Dtos.Route;
 
-public class RouteRegisterRequest {
+public record RouteRegisterRequest(
+        String routeName,
+        String origin,
+        String destination
+)  {
 }
