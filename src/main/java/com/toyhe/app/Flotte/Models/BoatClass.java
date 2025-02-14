@@ -1,5 +1,6 @@
 package com.toyhe.app.Flotte.Models;
 
+import com.toyhe.app.Tickets.Model.Ticket;
 import com.toyhe.app.Trips.Models.Trip;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class BoatClass {
     double boatClassPrice ;
     @ManyToMany(mappedBy = "boatClasses")
     private List<Trip> trips;
-
-
+    @OneToMany(mappedBy = "boatClass")
+    private List<Ticket> tickets;
 
 }

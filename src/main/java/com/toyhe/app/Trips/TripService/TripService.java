@@ -93,6 +93,7 @@ public record TripService(
                     .departureDateTime(nextTripDate)
                     .arrivalDateTime(arrivalDate)
                     .boat(boat)
+                    .availableSeats(0)
                     .route(route)
                     .origin(route.getOrigin())
                     .destination(route.getDestination())
@@ -103,6 +104,7 @@ public record TripService(
                     .tag(tag)
                     .expectedComeBackInHours(expectedComeBackInHours)
                     .build();
+            trip.setAvailableSeats(computeAvailableSet(trip));
             Trip savedTrip = tripRepository.save(trip);
             trips.add(savedTrip);
 
@@ -111,6 +113,7 @@ public record TripService(
                     .tripName(generateUniqueTripName(nextComebackDate))
                     .departureDateTime(nextComebackDate)
                     .arrivalDateTime(arrivalDate)
+                    .availableSeats(0)
                     .boat(boat)
                     .boatClasses(boatClasses)
                     .type(tripType)
@@ -121,6 +124,7 @@ public record TripService(
                     .tag((int) savedTrip.getTripID()) // Link comeback to the original trip
                     .expectedComeBackInHours(0)
                     .build();
+            trip.setAvailableSeats(computeAvailableSet(comebackTrip));
             tripRepository.save(comebackTrip);
 
             trips.add(comebackTrip);
@@ -171,4 +175,17 @@ public record TripService(
     private TripType determineTripType(String tripType) {
         return "preplanned".equalsIgnoreCase(tripType) ? TripType.PREPLANNED : TripType.NOT_PREPLANNED;
     }
+
+    private int  computeAvailableSet(Trip trip) {
+        int availableSet = 0;
+        List<BoatClass> boatClasses = trip.getBoatClasses();
+        for (BoatClass boatClass : boatClasses) {
+            availableSet += (int) boatClass.getPlacesNumber();
+        }
+
+        return availableSet;
+
+    }
+
+
 }
