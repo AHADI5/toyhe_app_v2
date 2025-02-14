@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 public record CustomerResponse(
         long customerID,
-        long userAccountID,
         String customerName,
         String customerEmail,
         String customerAddress,
@@ -19,7 +18,6 @@ public record CustomerResponse(
     public static CustomerResponse fromEntity(Customer customer) {
         return new CustomerResponse(
                 customer.getCustomerID(),
-                customer.getUserAccountID(),
                 customer.getCustomerName(),
                 customer.getCustomerEmail(),
                 customer.getCustomerAddress(),

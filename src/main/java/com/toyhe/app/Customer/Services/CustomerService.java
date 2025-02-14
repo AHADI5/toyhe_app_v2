@@ -4,22 +4,27 @@ import com.toyhe.app.Customer.Dtos.Requests.CustomerRegisterRequest;
 import com.toyhe.app.Customer.Dtos.Response.CustomerResponse;
 import com.toyhe.app.Customer.Models.Customer;
 import com.toyhe.app.Customer.Repository.CustomerRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public record CustomerService(
         CustomerRepository  customerRepository
 
 ) {
-    public CustomerResponse createCustomer(CustomerRegisterRequest customerRegisterRequest) {
+    public ResponseEntity<CustomerResponse> createCustomer(CustomerRegisterRequest customerRegisterRequest) {
         Customer customer = Customer.builder()
                 .customerName(customerRegisterRequest.customerName())
                 .customerEmail(customerRegisterRequest.customerEmail())
+                .customerAddress(customerRegisterRequest.customerAddress())
                 .phoneNumber(customerRegisterRequest.phoneNumber())
                 .build();
         customer = customerRepository.save(customer);
 
-        return CustomerResponse.fromEntity(customer);
+        return ResponseEntity.ok(CustomerResponse.fromEntity(customer));
 
     }
 
@@ -31,8 +36,12 @@ public record CustomerService(
         return customerRepository.findCustomerByPhoneNumber(phoneNumber) ;
     }
 
-    public Customer getCustomerByUserAccountId(long id) {
-        return customerRepository.findByUserAccountID(id) ;
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<Customer> customers  = customerRepository.findAll();
+        List<CustomerResponse> customerResponses = new ArrayList<>();
+        for (Customer customer : customers) {
+            customerResponses.add(CustomerResponse.fromEntity(customer));
+        }
+        return ResponseEntity.ok(customerResponses) ;
     }
-
 }

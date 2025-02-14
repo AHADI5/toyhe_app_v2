@@ -6,6 +6,7 @@ import com.toyhe.app.Customer.Models.Customer;
 import com.toyhe.app.Customer.Repository.CustomerRepository;
 import com.toyhe.app.Customer.Services.CustomerService;
 import com.toyhe.app.Flotte.Models.BoatClass;
+import com.toyhe.app.Flotte.Services.BoatClassService;
 import com.toyhe.app.Tickets.Dtos.ReservationRequest;
 import com.toyhe.app.Tickets.Dtos.ReservationResponse;
 import com.toyhe.app.Tickets.Model.Operator;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Service
 public record TicketService(
         CustomerService customerService,
+        BoatClassService boatClassService,
         TicketRepository ticketRepository,
         UserRepository userRepository,
         TripRepository tripRepository
@@ -45,13 +47,11 @@ public record TicketService(
         }
 
         if (customer == null) {
-            customer = customerService.getCustomerByUserAccountId(request.userAccountID());
-            if (customer == null) {
-                Optional<User> user = userRepository.findByEmail(request.email());
-                if (user.isEmpty()) {
-                    return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket()));
-                }
+            Optional<User> user = userRepository.findByEmail(request.email());
+            if (user.isPresent()) {
                 customer = createCustomerFromUser(user.get());
+            } else {
+                customer = createNewCustomer(request);
             }
         }
 
@@ -94,7 +94,7 @@ public record TicketService(
                 .build();
 
         ticket = ticketRepository.save(ticket);
-        decrementAvailableSeats(trip);
+        boatClassService.updateClassSeat(boatClass);
         return ticket;
     }
 
