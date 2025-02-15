@@ -8,7 +8,6 @@ import java.util.List;
 
 public record NewInUserRequest(
         String firstName ,
-        Role role  ,
         String lastName ,
         Address address ,
         String email,
