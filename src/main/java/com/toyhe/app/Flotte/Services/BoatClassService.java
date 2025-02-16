@@ -6,6 +6,8 @@ import com.toyhe.app.Flotte.Models.Boat;
 import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Flotte.Repositories.BoatClassRepository;
 import com.toyhe.app.Flotte.Repositories.BoatRepository;
+import com.toyhe.app.Price.Model.Price;
+import com.toyhe.app.Price.Repository.PriceRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,8 @@ import java.util.Optional;
 @Service
 public record BoatClassService(
         BoatClassRepository boatClassRepository,
-        BoatRepository boatRepository
+        BoatRepository boatRepository ,
+        PriceRepository priceRepository
 ) {
     public ResponseEntity<List<BoatClass>> registerBoatClass(List<BoatClassRegisterRequest> requests) {
         List<BoatClass> boatClasses = new ArrayList<>();
@@ -31,9 +34,11 @@ public record BoatClassService(
                         List.of()
                 );
             }
+            Price price  = getPrice(boatClassRegisterRequest.priceListID());
 
             // Create and add a new BoatClass object
             BoatClass boatClass = BoatClass.builder()
+                    .price(price)
                     .boat(optionalBoat.get())
                     .name(boatClassRegisterRequest.name())
                     .placesNumber(boatClassRegisterRequest.placesNumber())
@@ -67,7 +72,7 @@ public record BoatClassService(
                 .name(boatClassRegisterRequest.name())
                 .placesNumber(boatClassRegisterRequest.placesNumber())
                 .boat(boat)
-                .boatClassPrice(0)
+                .price(getPrice(boatClassRegisterRequest.priceListID()))
                 .build();
         BoatClass savedBoatClass  = boatClassRepository.save(boatClass);
         return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(savedBoatClass));
@@ -81,16 +86,18 @@ public record BoatClassService(
         assert existingBoatClass != null;
         existingBoatClass.setName(boatClassRegisterRequest.name());
         existingBoatClass.setPlacesNumber(boatClassRegisterRequest.placesNumber());
-        existingBoatClass.setBoatClassPrice(boatClassRegisterRequest.priceListID()) ;
+         existingBoatClass.setPrice(getPrice(boatClassRegisterRequest.priceListID()));
         existingBoatClass = boatClassRepository.save(existingBoatClass);
 
         return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(existingBoatClass));
     }
 
     public void updateClassSeat(BoatClass boatClass) {
-
         boatClass.setPlacesNumber(boatClass.getPlacesNumber() - 1);
         boatClassRepository.save(boatClass);
+    }
 
+    public Price getPrice(long priceID) {
+        return  priceRepository.findById(priceID).orElse(null);
     }
 }
