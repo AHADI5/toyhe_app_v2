@@ -17,6 +17,7 @@ import java.util.List;
 public class BoatClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "boat_classid")
     private Long boatClassID;
 
     private String name;
@@ -26,4 +27,9 @@ public class BoatClass {
     @JoinColumn(name = "boat_id")
     private Boat boat;
     double boatClassPrice ;
+    @ManyToMany(mappedBy = "boatClasses")
+    private List<Trip> trips;
+
+
+
 }

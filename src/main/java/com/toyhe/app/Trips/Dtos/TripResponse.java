@@ -21,7 +21,9 @@ public record TripResponse(
         List<BoatClassResponse> boatClasses,
         TripType type,
         double price,
-        TripStatus status
+        TripStatus status  ,
+        int tag ,
+        int exceptedComeBackInHours
 ) {
     public static TripResponse fromTrip(Trip trip) {
         return new TripResponse(
@@ -36,7 +38,9 @@ public record TripResponse(
                         .collect(Collectors.toList()),
                 trip.getType(),
                 trip.getPrice(),
-                trip.getStatus()
+                trip.getStatus() ,
+                trip.getTag() ,
+                trip.getExpectedComeBackInHours()
         );
     }
 }
