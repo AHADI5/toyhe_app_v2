@@ -2,14 +2,11 @@ package com.toyhe.app.Hr.HrService;
 
 import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
-import com.toyhe.app.Auth.Model.InUser;
-import com.toyhe.app.Auth.Model.User;
 import com.toyhe.app.Auth.Services.UserManagementService;
 import com.toyhe.app.Hr.Dtos.Requests.EmployeeRequest;
 import com.toyhe.app.Hr.Dtos.Response.EmployeeResponse;
 import com.toyhe.app.Hr.Models.Employee;
 import com.toyhe.app.Hr.Repository.EmployeeRepository;
-import com.toyhe.app.Hr.Repository.PositionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -61,7 +58,8 @@ public record EmployeeService(
                 "" ,
                 ""
         )  ;
-
         return  ResponseEntity.ok(userManagementService.createInUser(newInUserRequest));
     }
+
+
 }

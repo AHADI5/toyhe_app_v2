@@ -1,6 +1,7 @@
 package com.toyhe.app.Customer.Dtos.Response;
 
 import com.toyhe.app.Customer.Models.Customer;
+import com.toyhe.app.Tickets.Dtos.OperatorResponse;
 import com.toyhe.app.Tickets.Dtos.ReservationResponse;
 
 import java.util.List;
@@ -15,7 +16,8 @@ public record CustomerResponse(
         long tripsNumber,
         List<ReservationResponse> tickets
 ) {
-    public static CustomerResponse fromEntity(Customer customer) {
+    public static CustomerResponse fromEntity(Customer customer , OperatorResponse operatorResponse) {
+
         return new CustomerResponse(
                 customer.getCustomerID(),
                 customer.getCustomerName(),
@@ -24,7 +26,7 @@ public record CustomerResponse(
                 customer.getPhoneNumber(),
                 customer.getTripsNumber(),
                 customer.getTickets() != null ? customer.getTickets().stream()
-                        .map(ReservationResponse::toDto)
+                        .map(ticket -> ReservationResponse.toDto(ticket, operatorResponse))
                         .collect(Collectors.toList()) : List.of()
         );
     }

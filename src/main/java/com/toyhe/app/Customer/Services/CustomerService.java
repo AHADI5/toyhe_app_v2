@@ -4,6 +4,7 @@ import com.toyhe.app.Customer.Dtos.Requests.CustomerRegisterRequest;
 import com.toyhe.app.Customer.Dtos.Response.CustomerResponse;
 import com.toyhe.app.Customer.Models.Customer;
 import com.toyhe.app.Customer.Repository.CustomerRepository;
+import com.toyhe.app.Tickets.Dtos.OperatorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Service
 public record CustomerService(
-        CustomerRepository  customerRepository
+        CustomerRepository  customerRepository ,
+        OperatorResponse operatorResponse
 
 ) {
     public ResponseEntity<CustomerResponse> createCustomer(CustomerRegisterRequest customerRegisterRequest) {
@@ -24,7 +26,7 @@ public record CustomerService(
                 .build();
         customer = customerRepository.save(customer);
 
-        return ResponseEntity.ok(CustomerResponse.fromEntity(customer));
+        return ResponseEntity.ok(CustomerResponse.fromEntity(customer , operatorResponse));
 
     }
 
@@ -40,7 +42,7 @@ public record CustomerService(
         List<Customer> customers  = customerRepository.findAll();
         List<CustomerResponse> customerResponses = new ArrayList<>();
         for (Customer customer : customers) {
-            customerResponses.add(CustomerResponse.fromEntity(customer));
+            customerResponses.add(CustomerResponse.fromEntity(customer , operatorResponse));
         }
         return ResponseEntity.ok(customerResponses) ;
     }

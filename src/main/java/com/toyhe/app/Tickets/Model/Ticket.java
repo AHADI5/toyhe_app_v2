@@ -23,6 +23,7 @@ public class Ticket {
     long ticketId;
     String reference  ;
     LocalDateTime reservationDate  ;
+    String operator ;
     @ManyToOne
     Trip trip  ;
     String description;

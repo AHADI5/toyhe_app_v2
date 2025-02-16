@@ -64,16 +64,16 @@ public record   DepartmentService(
     }
 
     public Department getDepartment(long departmentID) {
-        return departmentID == 0 ?departmentRepository.findById(departmentID).orElse(null) : null;
+        return departmentRepository.findById(departmentID).orElse(null) ;
     }
     public List<Department> getDepartments(List<Long> departmentIDs) {
         return departmentRepository.findAllById(departmentIDs);
     }
 
-    public Employee getEmployee (long employeeID) {
-        return employeeID == 0 ? employeeRepository.findById(employeeID).orElseThrow() : null ;
-
+    public Employee getEmployee(long employeeID) {
+        return employeeRepository.findById(employeeID).orElse(null);
     }
+
 
 
 }
