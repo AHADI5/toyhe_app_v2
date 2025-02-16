@@ -86,4 +86,11 @@ public record BoatClassService(
 
         return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(existingBoatClass));
     }
+
+    public void updateClassSeat(BoatClass boatClass) {
+
+        boatClass.setPlacesNumber(boatClass.getPlacesNumber() - 1);
+        boatClassRepository.save(boatClass);
+
+    }
 }

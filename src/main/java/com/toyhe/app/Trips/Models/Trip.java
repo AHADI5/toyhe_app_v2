@@ -22,6 +22,7 @@ public class Trip {
     @GeneratedValue
     @Column(name = "trip_id")
     long tripID ;
+    int availableSeats ;
     String tripName ;
     LocalDateTime departureDateTime  ;
     LocalDateTime arrivalDateTime ;
