@@ -13,9 +13,11 @@ public record ReservationResponse(
         String route  ,
         String boatName  ,
         String className  ,
-        double price
+        double price ,
+        Operator operator
 ) {
-    public static ReservationResponse toDto(Ticket ticket) {
+    public static ReservationResponse toDto(Ticket ticket , OperatorResponse operatorResponse) {
+
         return new ReservationResponse(
                 ticket.getCustomer().getCustomerName()  ,
                 ticket.getCustomer().getCustomerEmail() ,
@@ -24,7 +26,9 @@ public record ReservationResponse(
                 ticket.getTrip().getOrigin() + " " + ticket.getTrip().getDestination(),
                 ticket.getTrip().getBoat().getName()  ,
                 ticket.getBoatClass().getName()  ,
-                ticket.getBoatClass().getBoatClassPrice()
+                ticket.getBoatClass().getBoatClassPrice() ,
+                operatorResponse.fromEmail(ticket.getOperator())
+
 
         ) ;
     }

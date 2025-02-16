@@ -5,7 +5,7 @@ public record ReservationRequest(
         String firstName ,
         String lastName ,
         String telephone ,
-        String operator ,
+        String operator,
         long tripID  ,
         long classID ,
         String note
