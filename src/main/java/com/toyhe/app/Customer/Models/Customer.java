@@ -21,7 +21,6 @@ public class Customer {
     @Id
     @GeneratedValue
     long customerID   ;
-    long userAccountID  ;
     String customerName ;
     String customerEmail ;
     String customerAddress ;

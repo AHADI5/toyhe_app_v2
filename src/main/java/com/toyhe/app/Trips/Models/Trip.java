@@ -20,16 +20,30 @@ import java.util.List;
 public class Trip {
     @Id
     @GeneratedValue
+    @Column(name = "trip_id")
     long tripID ;
+    int availableSeats ;
     String tripName ;
     LocalDateTime departureDateTime  ;
     LocalDateTime arrivalDateTime ;
     Days days ;
+    String origin , destination ;
     @ManyToOne
     Boat boat ;
-    @OneToMany
-    List<BoatClass> boatClasses ;
+    @ManyToMany
+    @JoinTable(
+            name = "trip_boat_classes",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "boat_classid")
+    )
+    private List<BoatClass> boatClasses;
+
+    @ManyToOne
+    Route route ;
+
     TripType type  ;
     double price ;
     TripStatus status ;
+    int tag  ;
+    int expectedComeBackInHours ;
 }

@@ -3,7 +3,10 @@ package com.toyhe.app.Tickets.Services;
 import com.toyhe.app.Auth.Model.User;
 import com.toyhe.app.Auth.Repositories.UserRepository;
 import com.toyhe.app.Customer.Models.Customer;
-import com.toyhe.app.Customer.Repository.CustomerRepository;
+import com.toyhe.app.Customer.Services.CustomerService;
+import com.toyhe.app.Flotte.Models.BoatClass;
+import com.toyhe.app.Flotte.Services.BoatClassService;
+import com.toyhe.app.Tickets.Dtos.OperatorResponse;
 import com.toyhe.app.Tickets.Dtos.ReservationRequest;
 import com.toyhe.app.Tickets.Dtos.ReservationResponse;
 import com.toyhe.app.Tickets.Model.Ticket;
@@ -14,66 +17,66 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
 
 @Service
 public record TicketService(
-        CustomerRepository customerRepository,
+        CustomerService customerService,
+        BoatClassService boatClassService,
         TicketRepository ticketRepository,
         UserRepository userRepository,
-        TripRepository tripRepository
+        TripRepository tripRepository ,
+        OperatorResponse operatorResponse
 ) {
 
     public ResponseEntity<ReservationResponse> ticketReservation(ReservationRequest request) {
-        // Find the trip by ID
-        Trip trip = tripRepository.findById(request.tripID()).orElse(null);
-        if (trip == null) {
-            return ResponseEntity.badRequest().body(null);
+
+
+        Trip trip = tripRepository.findById(request.tripID())
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+
+        if (trip.getAvailableSeats() == 0) {
+            return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
         }
 
-        // Find the customer by user account ID
-        Customer customer = customerRepository.findByUserAccountID(request.userAccountID());
+        Customer customer = customerService.getCustomerByCustomerEmail(request.email());
         if (customer == null) {
-            // If customer is not found, create a new one linked to the user
-            Optional<User> user = userRepository.findByEmail(request.email());
-            if (user.isEmpty()) {
-                return ResponseEntity.badRequest().body(null);
-            }
-
-            customer = Customer.builder()
-                    .customerName(user.get().getUsername()) // Assuming User has a `getName` method
-                    .customerEmail(user.get().getEmail())
-                    .build();
-
-            // Save the new customer
-            customer = customerRepository.save(customer);
+            customer = createNewCustomer(request);
         }
 
-        // Create the ticket
+        Ticket ticket = createTicket(customer, trip, request);
+        return ResponseEntity.ok(ReservationResponse.toDto(ticket ,operatorResponse));
+    }
+
+    private Customer createNewCustomer(ReservationRequest request) {
+        Customer newCustomer = Customer.builder()
+                .customerName(request.firstName() + " " + request.lastName())
+                .customerEmail(request.email())
+                .phoneNumber(request.telephone())
+                .build();
+        return customerService.customerRepository().save(newCustomer);
+    }
+
+
+    private Ticket createTicket(Customer customer, Trip trip, ReservationRequest request) {
+        BoatClass boatClass = trip.getBoatClasses().stream()
+                .filter(bc -> bc.getBoatClassID() == request.classID())
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Boat class not found"));
+
         Ticket ticket = Ticket.builder()
                 .customer(customer)
+                .operator(request.operator())
                 .trip(trip)
                 .boat(trip.getBoat())
+                .boatClass(boatClass)
+                .price(boatClass.getBoatClassPrice())
                 .description("Reservation for trip " + trip.getDepartureDateTime())
-                .reference("REF" + System.currentTimeMillis()) // Generate a unique reference
+                .reference("REF" + System.currentTimeMillis())
                 .reservationDate(LocalDateTime.now())
-
                 .build();
 
-        // Save the ticket
         ticket = ticketRepository.save(ticket);
-
-        // Create the response
-        ReservationResponse response = new ReservationResponse(
-                ticket.getCustomer().getCustomerName(),
-                ticket.getReservationDate(),
-                ticket.getTrip().getDepartureDateTime(),
-                ticket.getBoat().getName(),
-             null ,
-                ticket.getTrip().getPrice()
-        );
-
-        return ResponseEntity.ok(response);
+        boatClassService.updateClassSeat(boatClass);
+        return ticket;
     }
 }

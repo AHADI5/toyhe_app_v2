@@ -1,13 +1,12 @@
 package com.toyhe.app.Trips.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +20,8 @@ public class Route {
     String routeName;
     String origin;
     String destination;
+    @OneToMany(mappedBy = "route")
+    List<Trip> trips ;
 
 
 
