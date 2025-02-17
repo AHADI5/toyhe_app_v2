@@ -14,7 +14,7 @@ public record BoatClassResponse(
                 boatClass.getName()  ,
                 boatClass.getBoat().getBoatID()  ,
                 boatClass.getBoat().getName()  ,
-                boatClass.getBoatClassPrice() ,
+                boatClass.getPrice().getAmount() ,
                 boatClass.getPlacesNumber()
         ) ;
     }

@@ -1,5 +1,6 @@
 package com.toyhe.app.Flotte.Models;
 
+import com.toyhe.app.Price.Model.Price;
 import com.toyhe.app.Tickets.Model.Ticket;
 import com.toyhe.app.Trips.Models.Trip;
 import jakarta.persistence.*;
@@ -27,7 +28,8 @@ public class BoatClass {
     @ManyToOne
     @JoinColumn(name = "boat_id")
     private Boat boat;
-    double boatClassPrice ;
+    @ManyToOne
+    private Price price;
     @ManyToMany(mappedBy = "boatClasses")
     private List<Trip> trips;
     @OneToMany(mappedBy = "boatClass")

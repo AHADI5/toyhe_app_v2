@@ -69,7 +69,7 @@ public record TicketService(
                 .trip(trip)
                 .boat(trip.getBoat())
                 .boatClass(boatClass)
-                .price(boatClass.getBoatClassPrice())
+                .price(boatClass.getPrice().getAmount())
                 .description("Reservation for trip " + trip.getDepartureDateTime())
                 .reference("REF" + System.currentTimeMillis())
                 .reservationDate(LocalDateTime.now())
