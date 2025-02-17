@@ -26,7 +26,7 @@ public record ReservationResponse(
                 ticket.getTrip().getOrigin() + " " + ticket.getTrip().getDestination(),
                 ticket.getTrip().getBoat().getName()  ,
                 ticket.getBoatClass().getName()  ,
-                ticket.getBoatClass().getBoatClassPrice() ,
+                ticket.getBoatClass().getPrice().getAmount() ,
                 operatorResponse.fromEmail(ticket.getOperator())
 
 
