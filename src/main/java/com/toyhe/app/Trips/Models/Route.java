@@ -22,9 +22,4 @@ public class Route {
     String destination;
     @OneToMany(mappedBy = "route")
     List<Trip> trips ;
-
-
-
-
-
 }

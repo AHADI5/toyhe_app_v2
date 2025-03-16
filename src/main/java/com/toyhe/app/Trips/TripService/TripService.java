@@ -188,4 +188,15 @@ public record TripService(
     }
 
 
+    public ResponseEntity<List<TripResponse>> getTrips() {
+        List<TripResponse> tripResponses = new ArrayList<>();
+        List<Trip> trips  = tripRepository.findAll() ;
+
+        for (Trip trip : trips) {
+            tripResponses.add(TripResponse.fromTrip(trip));
+        }
+
+        return ResponseEntity.ok(tripResponses);
+
+    }
 }

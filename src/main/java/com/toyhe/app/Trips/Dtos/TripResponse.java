@@ -23,7 +23,8 @@ public record TripResponse(
         double price,
         TripStatus status  ,
         int tag ,
-        int exceptedComeBackInHours
+        int exceptedComeBackInHours ,
+        String routeName
 ) {
     public static TripResponse fromTrip(Trip trip) {
         return new TripResponse(
@@ -37,10 +38,11 @@ public record TripResponse(
                         .map(BoatClassResponse::fromBoatClassToDTO)
                         .collect(Collectors.toList()),
                 trip.getType(),
-                trip.getPrice(),
+                0,
                 trip.getStatus() ,
                 trip.getTag() ,
-                trip.getExpectedComeBackInHours()
+                trip.getExpectedComeBackInHours() ,
+                trip.getRoute() == null ? "Route" : trip.getRoute().getRouteName()
         );
     }
 }
