@@ -2,7 +2,7 @@ package com.toyhe.app.Flotte.Dtos.BoatClasses;
 
 public record BoatClassRegisterRequest(
         String name,
-        double placesNumber ,
+        int placesNumber ,
         long boatID  ,
         long priceListID
 

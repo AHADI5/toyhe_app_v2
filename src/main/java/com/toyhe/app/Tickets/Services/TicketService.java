@@ -44,7 +44,7 @@ public record TicketService(
         Optional<BoatClass> boatClass = boatClassRepository.findById(request.classID())  ;
 
 
-        if (trip.getAvailableSeats() == 0) {
+        if (boatClass.get().getPlacesNumber() == 0) {
             return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
         }
 

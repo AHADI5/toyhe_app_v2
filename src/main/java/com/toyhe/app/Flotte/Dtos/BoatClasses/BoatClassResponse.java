@@ -8,7 +8,7 @@ public record BoatClassResponse(
         long boatID ,
         String boatName  ,
         double priceListID,
-        double placeAvailable
+        int placeAvailable
 
 ) {
     public static BoatClassResponse fromBoatClassToDTO(BoatClass boatClass) {

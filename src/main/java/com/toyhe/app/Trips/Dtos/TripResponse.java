@@ -42,7 +42,7 @@ public record TripResponse(
                 trip.getStatus() ,
                 trip.getTag() ,
                 trip.getExpectedComeBackInHours() ,
-                trip.getRoute() == null ? "Route" : trip.getRoute().getRouteName()
+                trip.getOrigin() + "-" +trip.getDestination()
         );
     }
 }
