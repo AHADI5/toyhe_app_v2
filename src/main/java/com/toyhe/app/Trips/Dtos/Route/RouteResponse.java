@@ -8,6 +8,6 @@ public record RouteResponse(
         String destination
 ) {
     public static RouteResponse fromEntity(Route route) {
-        return new RouteResponse(route.getRouteName(), route.getOrigin(), route.getDestination());
+        return new RouteResponse(route.getOrigin() + "-" +route.getDestination(), route.getOrigin(), route.getDestination());
     }
 }

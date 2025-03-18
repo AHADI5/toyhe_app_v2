@@ -23,7 +23,7 @@ public class BoatClass {
     private Long boatClassID;
 
     private String name;
-    private double placesNumber;
+    private int placesNumber;
 
     @ManyToOne
     @JoinColumn(name = "boat_id")
