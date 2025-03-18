@@ -15,7 +15,7 @@ public record RouteService(
 ) {
     public RouteResponse registerRoute(RouteRegisterRequest routeRegisterRequest) {
         Route route = Route.builder()
-                .routeName(routeRegisterRequest.routeName())
+                .routeName(routeRegisterRequest.origin() + "-" + routeRegisterRequest.destination())
                 .origin(routeRegisterRequest.origin())
                 .destination(routeRegisterRequest.destination())
                 .build();

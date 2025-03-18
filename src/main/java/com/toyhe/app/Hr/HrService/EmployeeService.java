@@ -49,9 +49,8 @@ public record EmployeeService(
         NewInUserRequest newInUserRequest  = new NewInUserRequest(
                 employee.getFirstName()  ,
                 employee.getLastName() ,
-                null ,
                 employee.getEmail(),
-                employee.getFirstName(),
+                "123456",
                 new ArrayList<>() ,
                 employee.getPhone() ,
                 "" ,
@@ -62,4 +61,8 @@ public record EmployeeService(
     }
 
 
+    public EmployeeResponse getEmployeeByEmail(String email) {
+        Employee employee  = employeeRepository.findEmployeeByEmail(email);
+        return EmployeeResponse.fromEntity(employee);
+    }
 }

@@ -1,6 +1,8 @@
 package com.toyhe.app.Price.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +18,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Price {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long priceID  ;
     String priceName  ;
-    double pricePrice ;
+    double amount ;
     LocalDateTime startDate  ;
     LocalDateTime endDate  ;
-    PriceType priceType  ;
+    Boolean  isDefault ;
 }
