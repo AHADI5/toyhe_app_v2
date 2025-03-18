@@ -124,7 +124,7 @@ public record TripService(
                     .tag((int) savedTrip.getTripID()) // Link comeback to the original trip
                     .expectedComeBackInHours(0)
                     .build();
-            trip.setAvailableSeats(computeAvailableSet(comebackTrip));
+            trip.setAvailableSeats(computeAvailableSet(trip));
             tripRepository.save(comebackTrip);
 
             trips.add(comebackTrip);
@@ -177,7 +177,7 @@ public record TripService(
     }
 
     private int  computeAvailableSet(Trip trip) {
-        int availableSet = 0;
+        int availableSet = trip.getAvailableSeats();
         List<BoatClass> boatClasses = trip.getBoatClasses();
         for (BoatClass boatClass : boatClasses) {
             availableSet += (int) boatClass.getPlacesNumber();
@@ -185,6 +185,11 @@ public record TripService(
 
         return availableSet;
 
+    }
+
+    public void updateTripSeats(Trip trip) {
+        trip.setAvailableSeats(trip.getAvailableSeats() -1);
+        tripRepository.save(trip);
     }
 
 

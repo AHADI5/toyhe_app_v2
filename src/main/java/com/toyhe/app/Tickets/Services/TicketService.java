@@ -14,11 +14,14 @@ import com.toyhe.app.Tickets.Model.Ticket;
 import com.toyhe.app.Tickets.Repository.TicketRepository;
 import com.toyhe.app.Trips.Models.Trip;
 import com.toyhe.app.Trips.Reposiory.TripRepository;
+import com.toyhe.app.Trips.TripService.TripService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,7 +33,8 @@ public record TicketService(
         UserRepository userRepository,
         TripRepository tripRepository ,
         OperatorResponse operatorResponse ,
-        BoatClassRepository boatClassRepository
+        BoatClassRepository boatClassRepository ,
+        TripService tripService
 ) {
 
     public ResponseEntity<ReservationResponse> ticketReservation(ReservationRequest request) {
@@ -44,7 +48,7 @@ public record TicketService(
         Optional<BoatClass> boatClass = boatClassRepository.findById(request.classID())  ;
 
 
-        if (boatClass.get().getPlacesNumber() == 0) {
+        if (trip.getAvailableSeats() == 0) {
             return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
         }
 
@@ -89,7 +93,16 @@ public record TicketService(
                 .build();
 
         ticket = ticketRepository.save(ticket);
-        boatClassService.updateClassSeat(boatClass);
+        tripService.updateTripSeats(trip);
         return ticket;
+    }
+
+    public ResponseEntity<List<ReservationResponse>> getTicketsByTeller(String tellerUserName) {
+        List<ReservationResponse> reservationResponses  = new ArrayList<>();
+        List<Ticket> tickets  = ticketRepository.findTicketsByOperator(tellerUserName);
+        for (Ticket  ticket : tickets) {
+            reservationResponses.add(ReservationResponse.toDto(ticket , operatorResponse)) ;
+        }
+        return  reservationResponses.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(reservationResponses);
     }
 }
