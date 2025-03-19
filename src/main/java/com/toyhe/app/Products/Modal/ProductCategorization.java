@@ -1,8 +1,6 @@
 package com.toyhe.app.Products.Modal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class ProductCategory {
+public class ProductCategorization {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productTypeId;
     private String productTypeName;
     private String productTypeDescription;
-    @OneToMany(mappedBy = "product_type_id")
-    private List<Product> products;
+    @OneToMany(mappedBy = "productCategorization")
+    private List<Products> products;
 }

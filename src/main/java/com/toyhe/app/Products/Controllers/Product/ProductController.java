@@ -4,6 +4,7 @@ import com.toyhe.app.Products.Dtos.ProductRequest;
 import com.toyhe.app.Products.Dtos.ProductResponse;
 import com.toyhe.app.Products.Services.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public record ProductController(
         ProductService productService
 ) {
-
+    @PostMapping("/")
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
         return productService.createProduct(productRequest);
     }

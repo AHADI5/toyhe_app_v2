@@ -6,8 +6,10 @@ import com.toyhe.app.Flotte.Models.Boat;
 import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Flotte.Repositories.BoatClassRepository;
 import com.toyhe.app.Flotte.Repositories.BoatRepository;
-import com.toyhe.app.Price.Model.Price;
+import com.toyhe.app.Price.Model.PriceModel;
 import com.toyhe.app.Price.Repository.PriceRepository;
+import com.toyhe.app.Products.Modal.Products;
+import com.toyhe.app.Products.Repository.ProductRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,21 @@ import java.util.Optional;
 public record BoatClassService(
         BoatClassRepository boatClassRepository,
         BoatRepository boatRepository ,
-        PriceRepository priceRepository
+        PriceRepository priceRepository ,
+        ProductRepository  productRepository
 ) {
     public ResponseEntity<List<BoatClass>> registerBoatClass(List<BoatClassRegisterRequest> requests) {
         List<BoatClass> boatClasses = new ArrayList<>();
+        List<Products> products = new ArrayList<>();
 
         for (BoatClassRegisterRequest boatClassRegisterRequest : requests) {
             // Find the boat corresponding to the ID
             Optional<Boat> optionalBoat = boatRepository.findById(boatClassRegisterRequest.boatID());
+            //Finding products if exists
+            for(int productId  : boatClassRegisterRequest.productID()) {
+                Products product = productRepository.findById((long) productId).get() ;
+                products.add(product);
+            }
 
             if (optionalBoat.isEmpty()) {
                 // If the boat does not exist, return an error response
@@ -34,13 +43,14 @@ public record BoatClassService(
                         List.of()
                 );
             }
-            Price price  = getPrice(boatClassRegisterRequest.priceListID());
+            PriceModel priceModel = getPrice(boatClassRegisterRequest.priceListID());
 
             // Create and add a new BoatClass object
             BoatClass boatClass = BoatClass.builder()
-                    .price(price)
+                    .priceModel(priceModel)
                     .boat(optionalBoat.get())
                     .name(boatClassRegisterRequest.name())
+                    .products(products)
                     .placesNumber(boatClassRegisterRequest.placesNumber())
                     .build();
 
@@ -72,7 +82,7 @@ public record BoatClassService(
                 .name(boatClassRegisterRequest.name())
                 .placesNumber(boatClassRegisterRequest.placesNumber())
                 .boat(boat)
-                .price(getPrice(boatClassRegisterRequest.priceListID()))
+                .priceModel(getPrice(boatClassRegisterRequest.priceListID()))
                 .build();
         BoatClass savedBoatClass  = boatClassRepository.save(boatClass);
         return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(savedBoatClass));
@@ -86,7 +96,7 @@ public record BoatClassService(
         assert existingBoatClass != null;
         existingBoatClass.setName(boatClassRegisterRequest.name());
         existingBoatClass.setPlacesNumber(boatClassRegisterRequest.placesNumber());
-         existingBoatClass.setPrice(getPrice(boatClassRegisterRequest.priceListID()));
+         existingBoatClass.setPriceModel(getPrice(boatClassRegisterRequest.priceListID()));
         existingBoatClass = boatClassRepository.save(existingBoatClass);
 
         return ResponseEntity.ok(BoatClassResponse.fromBoatClassToDTO(existingBoatClass));
@@ -97,7 +107,7 @@ public record BoatClassService(
         boatClassRepository.save(boatClass);
     }
 
-    public Price getPrice(long priceID) {
+    public PriceModel getPrice(long priceID) {
         return  priceRepository.findById(priceID).orElse(null);
     }
 }

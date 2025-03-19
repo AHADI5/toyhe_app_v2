@@ -1,6 +1,5 @@
 package com.toyhe.app.Tickets.Services;
 
-import com.toyhe.app.Auth.Model.User;
 import com.toyhe.app.Auth.Repositories.UserRepository;
 import com.toyhe.app.Customer.Models.Customer;
 import com.toyhe.app.Customer.Services.CustomerService;
@@ -86,7 +85,7 @@ public record TicketService(
                 .trip(trip)
                 .boat(trip.getBoat())
                 .boatClass(boatClass)
-                .price(boatClass.getPrice() != null ? boatClass.getPrice().getAmount() : 0)
+                .price(boatClass.getPriceModel() != null ? boatClass.getPriceModel().getAmount() : 0)
                 .description("Reservation for trip " + trip.getDepartureDateTime())
                 .reference("REF" + System.currentTimeMillis())
                 .reservationDate(LocalDateTime.now())

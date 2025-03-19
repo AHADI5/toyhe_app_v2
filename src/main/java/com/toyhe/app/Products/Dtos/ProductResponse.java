@@ -1,7 +1,7 @@
 package com.toyhe.app.Products.Dtos;
 
 
-import com.toyhe.app.Products.Modal.Product;
+import com.toyhe.app.Products.Modal.Products;
 
 public record ProductResponse(
         Long productId,
@@ -10,13 +10,13 @@ public record ProductResponse(
         String productType,
         String productCategoryName
 ) {
-    public static ProductResponse fromModel(Product product) {
+    public static ProductResponse fromModel(Products products) {
         return new ProductResponse(
-                product.getProductId(),
-                product.getProductName(),
-                product.getProductDescription(),
-                product.getProductType(),
-                product.getProductCategory() != null ? product.getProductCategory().getProductTypeName() : null
+                products.getProductId(),
+                products.getProductName(),
+                products.getProductDescription(),
+                products.getProductType(),
+                products.getProductCategorization() != null ? products.getProductCategorization().getProductTypeName() : null
         );
     }
 }

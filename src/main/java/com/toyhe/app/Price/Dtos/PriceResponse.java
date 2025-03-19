@@ -1,6 +1,6 @@
 package com.toyhe.app.Price.Dtos;
 
-import com.toyhe.app.Price.Model.Price;
+import com.toyhe.app.Price.Model.PriceModel;
 
 import java.time.LocalDateTime;
 
@@ -10,17 +10,19 @@ public record PriceResponse(
         double amount  ,
         LocalDateTime startDate ,
         LocalDateTime enDate ,
-        Boolean isDefault
+        Boolean isDefault ,
+        String deviseName
 ) {
 
-    public static  PriceResponse toPriceResponse(Price price) {
+    public static  PriceResponse toPriceResponse(PriceModel priceModel) {
         return new PriceResponse(
-                price.getPriceID()  ,
-                price.getPriceName()  ,
-                price.getAmount()  ,
-                price.getStartDate()  ,
-                price.getEndDate()  ,
-                price.getIsDefault()
+                priceModel.getPriceID()  ,
+                priceModel.getPriceName()  ,
+                priceModel.getAmount()  ,
+                priceModel.getStartDate()  ,
+                priceModel.getEndDate()  ,
+                priceModel.getIsDefault() ,
+                priceModel.getDeviseName()
         );
 
     }

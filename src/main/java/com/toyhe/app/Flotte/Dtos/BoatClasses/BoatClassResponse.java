@@ -1,6 +1,10 @@
 package com.toyhe.app.Flotte.Dtos.BoatClasses;
 
 import com.toyhe.app.Flotte.Models.BoatClass;
+import com.toyhe.app.Products.Dtos.ProductResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record BoatClassResponse(
         int boatClassId,
@@ -8,7 +12,8 @@ public record BoatClassResponse(
         long boatID ,
         String boatName  ,
         double priceListID,
-        int placeAvailable
+        int placeAvailable ,
+        List<ProductResponse> productResponseList
 
 ) {
     public static BoatClassResponse fromBoatClassToDTO(BoatClass boatClass) {
@@ -17,8 +22,13 @@ public record BoatClassResponse(
                 boatClass.getName()  ,
                 boatClass.getBoat().getBoatID()  ,
                 boatClass.getBoat().getName()  ,
-                0 ,
-                boatClass.getPlacesNumber()
+                boatClass.getPriceModel() == null  ? 0  : boatClass.getPriceModel().getPriceID(),
+                boatClass.getPlacesNumber() ,
+                boatClass.getProducts()  != null
+                        ? boatClass.getProducts().stream()
+                        .map(ProductResponse::fromModel)
+                        .collect(Collectors.toList())
+                        : List.of()
         ) ;
     }
 }

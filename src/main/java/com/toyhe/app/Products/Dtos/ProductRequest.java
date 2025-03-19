@@ -4,6 +4,7 @@ public record ProductRequest(
        String productName,
        String productDescription,
        String productType ,
-       long productCategoryId
+       long productCategoryId  ,
+       long priceId
 ) {
 }
