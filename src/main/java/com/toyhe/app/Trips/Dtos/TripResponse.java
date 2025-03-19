@@ -20,7 +20,6 @@ public record TripResponse(
         long boatID ,
         List<BoatClassResponse> boatClasses,
         TripType type,
-        double price,
         TripStatus status  ,
         int tag ,
         int exceptedComeBackInHours ,
@@ -38,7 +37,6 @@ public record TripResponse(
                         .map(BoatClassResponse::fromBoatClassToDTO)
                         .collect(Collectors.toList()),
                 trip.getType(),
-                0,
                 trip.getStatus() ,
                 trip.getTag() ,
                 trip.getExpectedComeBackInHours() ,

@@ -1,6 +1,5 @@
 package com.toyhe.app.Tickets.Dtos;
 
-import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Tickets.Model.Ticket;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public record ReservationResponse(
                 ticket.getTrip().getOrigin() + " " + ticket.getTrip().getDestination(),
                 ticket.getTrip().getBoat().getName()  ,
                 ticket.getBoatClass().getName()  ,
-                ticket.getBoatClass().getPrice() == null ? 0 : ticket.getBoatClass().getPrice().getAmount() ,
+                ticket.getBoatClass().getPriceModel() == null ? 0 : ticket.getBoatClass().getPriceModel().getAmount() ,
                 operatorResponse.fromEmail(ticket.getOperator())
 
 

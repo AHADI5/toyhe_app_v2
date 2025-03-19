@@ -44,7 +44,8 @@ public record BoatService(
                             boatClass.name()  ,
                             boatClass.placesNumber()  ,
                             boat.getBoatID() ,
-                            boatClass.priceListID()
+                            boatClass.priceListID()  ,
+                            boatClass.productID()
                     )
             ) ;
         }
