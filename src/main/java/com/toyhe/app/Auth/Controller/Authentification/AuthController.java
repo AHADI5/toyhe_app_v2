@@ -25,9 +25,9 @@ public record AuthController(
     }
 
     @PostMapping("/test")
-    public String test(@RequestBody AuthRequest authRequest) {
-        log.info("Auth request: {}", authRequest);
-        return userRoleService.getUserRoles(authRequest.email()) ;
+    public String test(@RequestBody String message) {
+        log.info("Message: {}", message);
+        return message ;
     }
 
 }
