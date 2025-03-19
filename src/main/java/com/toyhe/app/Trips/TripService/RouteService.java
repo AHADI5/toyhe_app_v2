@@ -29,6 +29,7 @@ public record RouteService(
     }
 
 
-
-
+    public boolean isDataBaseEmpty() {
+        return routeRepository.count() == 0;
+    }
 }

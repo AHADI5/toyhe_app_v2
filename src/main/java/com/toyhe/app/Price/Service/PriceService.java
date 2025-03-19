@@ -22,4 +22,8 @@ public record PriceService(
                 .build();
         return priceRepository.save(priceModel);
     }
+
+    public boolean isDataBaseEmpty() {
+        return  priceRepository.count() == 0 ;
+    }
 }

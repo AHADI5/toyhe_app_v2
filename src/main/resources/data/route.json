@@ -1,0 +1,27 @@
+[
+  {
+    "routeName": "Route1",
+    "origin": "Goma",
+    "destination": "Bukavu"
+  },
+  {
+    "routeName": "Route2",
+    "origin": "Bukavu",
+    "destination": "Idjwi"
+  },
+  {
+    "routeName": "Route3",
+    "origin": "Goma",
+    "destination": "Kalemie"
+  },
+  {
+    "routeName": "Route4",
+    "origin": "Uvira",
+    "destination": "Bukavu"
+  },
+  {
+    "routeName": "Route5",
+    "origin": "Idjwi",
+    "destination": "Goma"
+  }
+]

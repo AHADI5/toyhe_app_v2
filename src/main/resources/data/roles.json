@@ -1,0 +1,38 @@
+[
+  {
+    "roleName": "CLIENT_POTENTIEL",
+    "description": "Représente un visiteur qui s’inscrit sur la plateforme pour accéder aux informations de l'agence de transport SILIMU ou effectuer les opérations proposées au grand public."
+  },
+  {
+    "roleName": "CLIENT",
+    "description": "Utilisateur central qui effectue des réservations, gère ses trajets, effectue des paiements, et interagit avec l'agence pour un service fluide et personnalisé."
+  },
+  {
+    "roleName": "GUICHETIER",
+    "description": "Agent physique qui s’occupe de vendre les billets et gérer les modifications ou les annulations de réservations."
+  },
+  {
+    "roleName": "DG",
+    "description": "Leader stratégique de l'agence, responsable de la performance globale et de la satisfaction client. Assure la cohérence des actions de tous les services et garantit la pérennité de l'entreprise."
+  },
+  {
+    "roleName": "DAF",
+    "description": "Pilier financier et administratif de l’agence de transport dans toutes les opérations financières."
+  },
+  {
+    "roleName": "DSG",
+    "description": "Permet d'assurer un suivi étroit des activités de l’agence à Goma et de soulager la charge de travail du DG au niveau administratif et opérationnel."
+  },
+  {
+    "roleName": "ASM",
+    "description": "Met en place des stratégies pour attirer de nouveaux clients, fidéliser les anciens, et promouvoir les services de l’agence via des campagnes."
+  },
+  {
+    "roleName": "ASE",
+    "description": "Garant du bon déroulement des opérations quotidiennes et de l’agence de transport dans la plateforme."
+  },
+  {
+    "roleName": "ASP",
+    "description": "Responsable de la gestion des plannings, et du suivi des performances du personnel."
+  }
+]

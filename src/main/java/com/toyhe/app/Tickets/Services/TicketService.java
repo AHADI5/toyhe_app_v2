@@ -104,4 +104,8 @@ public record TicketService(
         }
         return  reservationResponses.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(reservationResponses);
     }
+
+    public boolean isDataBaseEmpty() {
+        return ticketRepository.count() == 0 ;
+    }
 }

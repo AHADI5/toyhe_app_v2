@@ -25,4 +25,8 @@ public record PositionService(
     public List<Position> getAllPositions() {
         return positionRepository.findAll();
     }
+
+    public boolean isDataBaseEmpty() {
+        return positionRepository.count() == 0;
+    }
 }

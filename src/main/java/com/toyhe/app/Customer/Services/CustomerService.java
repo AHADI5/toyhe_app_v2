@@ -46,4 +46,8 @@ public record CustomerService(
         }
         return ResponseEntity.ok(customerResponses) ;
     }
+
+    public boolean isDataBaseEmpty() {
+        return customerRepository.count() == 0;
+    }
 }

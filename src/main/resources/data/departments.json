@@ -1,0 +1,32 @@
+[
+  {
+    "departmentName": "GUICHET",
+    "managerID": 1,
+    "parentDepartmentID": 0,
+    "childrenDepartmentIDs": []
+  },
+  {
+    "departmentName": "FINANCE",
+    "managerID": 2,
+    "parentDepartmentID": 0,
+    "childrenDepartmentIDs": []
+  },
+  {
+    "departmentName": "OPERATIONS",
+    "managerID": 3,
+    "parentDepartmentID": 0,
+    "childrenDepartmentIDs": []
+  },
+  {
+    "departmentName": "MARKETING",
+    "managerID": 4,
+    "parentDepartmentID": 0,
+    "childrenDepartmentIDs": []
+  },
+  {
+    "departmentName": "LOGISTICS",
+    "managerID": 5,
+    "parentDepartmentID": 0,
+    "childrenDepartmentIDs": []
+  }
+]

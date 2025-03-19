@@ -157,4 +157,8 @@ public class UserRoleService{
         Optional<User> user = userRepository.findByEmail(username);
         return user.get().getUserRoles().stream().map(UserRole::getRoleName).collect(Collectors.joining(","));
     }
+
+    public boolean isDatabaseEmpty() {
+        return userRepository.count() == 0;
+    }
 }

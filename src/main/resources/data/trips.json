@@ -1,0 +1,74 @@
+[
+  {
+    "departureDate": "2025-04-10T07:30:00",
+    "arrivalDate": "2025-04-10T17:45:00",
+    "days": "Tuesday,Saturday",
+    "boatID": 0,
+    "classIDs": [1, 2, 3, 4],
+    "tripType": "PREPLANNED",
+    "routeID": 1,
+    "expectedComeBackInHours": 72,
+    "durationInWeeks": 6,
+    "tag": 0
+  },
+  {
+    "departureDate": "2025-04-11T08:00:00",
+    "arrivalDate": "2025-04-11T18:00:00",
+    "days": "Monday,Friday",
+    "boatID": 1,
+    "classIDs": [5, 6, 7, 8],
+    "tripType": "PREPLANNED",
+    "routeID": 2,
+    "expectedComeBackInHours": 48,
+    "durationInWeeks": 8,
+    "tag": 1
+  },
+  {
+    "departureDate": "2025-04-12T06:15:00",
+    "arrivalDate": "2025-04-12T16:30:00",
+    "days": "Wednesday,Sunday",
+    "boatID": 2,
+    "classIDs": [9, 10, 11, 12],
+    "tripType": "PREPLANNED",
+    "routeID": 3,
+    "expectedComeBackInHours": 96,
+    "durationInWeeks": 5,
+    "tag": 2
+  },
+  {
+    "departureDate": "2025-04-13T09:00:00",
+    "arrivalDate": "2025-04-13T19:30:00",
+    "days": "Thursday,Saturday",
+    "boatID": 3,
+    "classIDs": [13, 14, 15, 16],
+    "tripType": "PREPLANNED",
+    "routeID": 4,
+    "expectedComeBackInHours": 36,
+    "durationInWeeks": 4,
+    "tag": 3
+  },
+  {
+    "departureDate": "2025-04-14T10:45:00",
+    "arrivalDate": "2025-04-14T21:00:00",
+    "days": "Tuesday,Friday",
+    "boatID": 4,
+    "classIDs": [17, 18, 19, 20],
+    "tripType": "PREPLANNED",
+    "routeID": 5,
+    "expectedComeBackInHours": 60,
+    "durationInWeeks": 7,
+    "tag": 4
+  },
+  {
+    "departureDate": "2025-04-15T05:30:00",
+    "arrivalDate": "2025-04-15T15:45:00",
+    "days": "Monday,Thursday",
+    "boatID": 0,
+    "classIDs": [1, 2, 3, 4],
+    "tripType": "PREPLANNED",
+    "routeID": 6,
+    "expectedComeBackInHours": 84,
+    "durationInWeeks": 6,
+    "tag": 5
+  }
+]

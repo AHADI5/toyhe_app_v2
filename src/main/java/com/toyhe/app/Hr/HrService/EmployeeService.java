@@ -65,4 +65,8 @@ public record EmployeeService(
         Employee employee  = employeeRepository.findEmployeeByEmail(email);
         return EmployeeResponse.fromEntity(employee);
     }
+
+    public boolean isDataBaseEmpty() {
+        return employeeRepository.count() == 0;
+    }
 }

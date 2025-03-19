@@ -76,4 +76,7 @@ public record   DepartmentService(
 
 
 
+    public boolean isDataBaseEmpty() {
+        return departmentRepository.count() == 0;
+    }
 }

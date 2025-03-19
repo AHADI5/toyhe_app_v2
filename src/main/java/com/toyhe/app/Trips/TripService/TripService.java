@@ -204,4 +204,8 @@ public record TripService(
         return ResponseEntity.ok(tripResponses);
 
     }
+
+    public boolean isDataBaseEmpty() {
+        return  tripRepository.count() == 0;
+    }
 }

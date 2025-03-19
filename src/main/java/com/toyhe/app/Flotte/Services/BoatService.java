@@ -124,4 +124,8 @@ public record BoatService(
 
 
     }
+
+    public boolean isDataBaseEmpty() {
+        return boatRepository.count() == 0;
+    }
 }

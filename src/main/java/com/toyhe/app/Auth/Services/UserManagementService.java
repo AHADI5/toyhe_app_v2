@@ -84,4 +84,8 @@ public class UserManagementService {
         // Use ApplicationContext to ensure transactional proxy is active
         context.getBean(UserRoleService.class).assignUserRolesToAUser(userRoleAssignementRequest);
     }
+
+    public boolean isDatabaseEmpty() {
+        return userRepository.count() == 0;
+    }
 }

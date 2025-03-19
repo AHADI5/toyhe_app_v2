@@ -1,0 +1,52 @@
+[
+  {
+    "email": "amu@gmail.com",
+    "firstName": "Heritier",
+    "lastName": "Amuri",
+    "telephone": "0991527852",
+    "operator": "gloireahad@gmail.com",
+    "tripID": 2,
+    "classID": 1,
+    "note": "With bagages"
+  },
+  {
+    "email": "john@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "telephone": "0945876543",
+    "operator": "emmanuelm@gmail.com",
+    "tripID": 3,
+    "classID": 2,
+    "note": "No bagages"
+  },
+  {
+    "email": "sara@example.com",
+    "firstName": "Sara",
+    "lastName": "Smith",
+    "telephone": "0923654789",
+    "operator": "sarahkanyamihigo@gmail.com",
+    "tripID": 4,
+    "classID": 3,
+    "note": "With a pet"
+  },
+  {
+    "email": "lucas@example.com",
+    "firstName": "Lucas",
+    "lastName": "Munyayalo",
+    "telephone": "0809231456",
+    "operator": "davidniyon@gmail.com",
+    "tripID": 5,
+    "classID": 4,
+    "note": "VIP class"
+  },
+  {
+    "email": "emily@example.com",
+    "firstName": "Emily",
+    "lastName": "Johnson",
+    "telephone": "0776123456",
+    "operator": "rachelbimen@gmail.com",
+    "tripID": 6,
+    "classID": 1,
+    "note": "Business trip, with luggage"
+  }
+]

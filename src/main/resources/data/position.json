@@ -1,0 +1,27 @@
+[
+  {
+    "positionName": "Treller",
+    "description": "Responsible for ticket sales and customer assistance at the counter.",
+    "departmentID": 1
+  },
+  {
+    "positionName": "Accountant",
+    "description": "Manages financial records, transactions, and budget planning.",
+    "departmentID": 2
+  },
+  {
+    "positionName": "Operations Supervisor",
+    "description": "Oversees daily transport operations and ensures efficiency.",
+    "departmentID": 3
+  },
+  {
+    "positionName": "Marketing Specialist",
+    "description": "Develops campaigns to attract new clients and retain existing ones.",
+    "departmentID": 4
+  },
+  {
+    "positionName": "Logistics Coordinator",
+    "description": "Handles scheduling, cargo management, and fleet coordination.",
+    "departmentID": 5
+  }
+]

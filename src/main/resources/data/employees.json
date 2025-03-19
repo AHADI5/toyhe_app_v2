@@ -1,0 +1,52 @@
+[
+  {
+    "firstName": "Gloire",
+    "lastName": "Ahadi",
+    "email": "gloireahad@gmail.com",
+    "phone": "0991584663",
+    "specialization": "Software Engineering",
+    "degree": "DIPLOMA",
+    "departmentID": 1,
+    "positionID": 2
+  },
+  {
+    "firstName": "Emmanuel",
+    "lastName": "Munyayalo",
+    "email": "emmanuelm@gmail.com",
+    "phone": "0773456789",
+    "specialization": "Financial Management",
+    "degree": "BACHELOR",
+    "departmentID": 2,
+    "positionID": 1
+  },
+  {
+    "firstName": "Sarah",
+    "lastName": "Kanyamihigo",
+    "email": "sarahkanyamihigo@gmail.com",
+    "phone": "0934567890",
+    "specialization": "Operations Management",
+    "degree": "MASTERS",
+    "departmentID": 3,
+    "positionID": 3
+  },
+  {
+    "firstName": "David",
+    "lastName": "Niyonzima",
+    "email": "davidniyon@gmail.com",
+    "phone": "0856345678",
+    "specialization": "Marketing and Communications",
+    "degree": "BACHELOR",
+    "departmentID": 4,
+    "positionID": 4
+  },
+  {
+    "firstName": "Rachel",
+    "lastName": "Bimenyimana",
+    "email": "rachelbimen@gmail.com",
+    "phone": "0745123456",
+    "specialization": "Logistics Coordination",
+    "degree": "MASTERS",
+    "departmentID": 5,
+    "positionID": 5
+  }
+]
