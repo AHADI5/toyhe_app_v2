@@ -54,7 +54,8 @@ public class SecurityConfiguration {
         config.setAllowedOrigins(List.of(
 
                 "https://toyhev2.netlify.app",
-                "http://localhost:5173"
+                "http://localhost:5173"  ,
+                "https://console.cron-job.org"
 
         ));
 
