@@ -1,0 +1,22 @@
+[
+  {
+    "productTypeName": "Electronics",
+    "productTypeDescription": "Devices such as phones, laptops, and televisions."
+  },
+  {
+    "productTypeName": "Furniture",
+    "productTypeDescription": "Home and office furniture including tables, chairs, and cabinets."
+  },
+  {
+    "productTypeName": "Clothing",
+    "productTypeDescription": "Apparel including shirts, pants, dresses, and jackets."
+  },
+  {
+    "productTypeName": "Groceries",
+    "productTypeDescription": "Everyday food and household essentials."
+  },
+  {
+    "productTypeName": "Automobile Parts",
+    "productTypeDescription": "Spare parts and accessories for vehicles."
+  }
+]

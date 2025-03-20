@@ -1,0 +1,37 @@
+[
+  {
+    "productName": "iPhone 15",
+    "productDescription": "Latest Apple smartphone with advanced features.",
+    "productType": "Electronics",
+    "productCategoryId": 1,
+    "priceId": 1
+  },
+  {
+    "productName": "Wooden Office Desk",
+    "productDescription": "Spacious and durable wooden desk for office use.",
+    "productType": "Furniture",
+    "productCategoryId": 2,
+    "priceId": 2
+  },
+  {
+    "productName": "Men's Leather Jacket",
+    "productDescription": "Stylish and warm leather jacket for men.",
+    "productType": "Clothing",
+    "productCategoryId": 3,
+    "priceId": 3
+  },
+  {
+    "productName": "Organic Rice",
+    "productDescription": "High-quality organic rice for healthy meals.",
+    "productType": "Groceries",
+    "productCategoryId": 4,
+    "priceId": 4
+  },
+  {
+    "productName": "Car Battery",
+    "productDescription": "Long-lasting battery for various car models.",
+    "productType": "Automobile Parts",
+    "productCategoryId": 5,
+    "priceId": 5
+  }
+]

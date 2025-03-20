@@ -1,12 +1,10 @@
 package com.toyhe.app;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
 import com.toyhe.app.Auth.Dtos.Requests.UserRoleRequest;
 import com.toyhe.app.Auth.Services.UserManagementService;
 import com.toyhe.app.Auth.Services.UserRoleService;
-import com.toyhe.app.Customer.Dtos.Requests.CustomerRegisterRequest;
 import com.toyhe.app.Customer.Services.CustomerService;
 import com.toyhe.app.Flotte.Dtos.Boat.BoatRegisterRequest;
 import com.toyhe.app.Flotte.Services.BoatService;
@@ -18,6 +16,10 @@ import com.toyhe.app.Hr.HrService.EmployeeService;
 import com.toyhe.app.Hr.HrService.PositionService;
 import com.toyhe.app.Price.Dtos.PriceRequest;
 import com.toyhe.app.Price.Service.PriceService;
+import com.toyhe.app.Products.Dtos.ProductCategoryRequest;
+import com.toyhe.app.Products.Dtos.ProductRequest;
+import com.toyhe.app.Products.Services.ProductCategoryService;
+import com.toyhe.app.Products.Services.ProductService;
 import com.toyhe.app.Tickets.Dtos.ReservationRequest;
 import com.toyhe.app.Tickets.Services.TicketService;
 import com.toyhe.app.Trips.Dtos.Route.RouteRegisterRequest;
@@ -68,12 +70,14 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     CustomerService customerService ;
 
+    @Autowired
+    ProductCategoryService productCategoryService ;
+
+    @Autowired
+    ProductService productService ;
 
 
-
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     @Override
     public void run(String... args) throws Exception {
         // Initialize User data only if the user table is empty
@@ -86,7 +90,14 @@ public class DataInitializer implements CommandLineRunner {
             loadAndInitializeData("src/main/resources/data/users.json", NewInUserRequest.class, userManagementService::createInUser);
         }
 
-        if (boatService.isDataBaseEmpty()){
+        if (productCategoryService.isDataBaseEmpty()) {
+            loadAndInitializeData("src/main/resources/data/productCategory.json" , ProductCategoryRequest.class  ,productCategoryService::createProductCategory);
+        }
+        if (productService.isDataBaseEmpty()) {
+            loadAndInitializeData("src/main/resources/data/products.json"  , ProductRequest.class, productService::createProduct);
+        }
+
+        if (!boatService.isDataBaseEmpty()){
             loadAndInitializeData("src/main/resources/data/boats.json" , BoatRegisterRequest.class  , boatService::registerBoat);
         }
 
@@ -117,6 +128,7 @@ public class DataInitializer implements CommandLineRunner {
         if (ticketService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/reservations.json" , ReservationRequest.class , ticketService::ticketReservation);
         }
+
 
 //        if(customerService.isDataBaseEmpty()) {
 //            loadAndInitializeData("" , CustomerRegisterRequest.class , customerService :: createCustomer);

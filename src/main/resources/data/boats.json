@@ -1,35 +1,5 @@
 [
   {
-    "name": "EMMANUEL 4",
-    "numMatriculation": "78254985",
-    "motorType": "SAMSUNG",
-    "fabricationDate": "12/12/2001",
-    "boatCategory": "NAVIRE",
-    "boatWeight": 800,
-    "supportedWeight": 500,
-    "boatClassList": [
-      { "name": "FIRST CLASS", "boatID": 0, "placesNumber": 300, "priceListID": 1 },
-      { "name": "SECOND CLASS", "boatID": 0, "placesNumber": 200, "priceListID": 2 },
-      { "name": "THIRD CLASS", "boatID": 0, "placesNumber": 150, "priceListID": 3 },
-      { "name": "VIP", "boatID": 0, "placesNumber": 50, "priceListID": 4 }
-    ]
-  },
-  {
-    "name": "VICTORIA 2",
-    "numMatriculation": "98563214",
-    "motorType": "YAMAHA",
-    "fabricationDate": "05/07/1999",
-    "boatCategory": "FERRY",
-    "boatWeight": 1000,
-    "supportedWeight": 700,
-    "boatClassList": [
-      { "name": "FIRST CLASS", "boatID": 1, "placesNumber": 350, "priceListID": 5 },
-      { "name": "SECOND CLASS", "boatID": 1, "placesNumber": 250, "priceListID": 6 },
-      { "name": "THIRD CLASS", "boatID": 1, "placesNumber": 180, "priceListID": 7 },
-      { "name": "VIP", "boatID": 1, "placesNumber": 70, "priceListID": 8 }
-    ]
-  },
-  {
     "name": "LAC KIVU EXPRESS",
     "numMatriculation": "45698732",
     "motorType": "HONDA",
@@ -38,10 +8,10 @@
     "boatWeight": 600,
     "supportedWeight": 400,
     "boatClassList": [
-      { "name": "FIRST CLASS", "boatID": 2, "placesNumber": 200, "priceListID": 9 },
-      { "name": "SECOND CLASS", "boatID": 2, "placesNumber": 150, "priceListID": 10 },
-      { "name": "THIRD CLASS", "boatID": 2, "placesNumber": 100, "priceListID": 11 },
-      { "name": "VIP", "boatID": 2, "placesNumber": 40, "priceListID": 12 }
+      { "name": "FIRST CLASS", "boatID": 2, "placesNumber": 200, "priceListID": 1, "productID": [1, 3] },
+      { "name": "SECOND CLASS", "boatID": 2, "placesNumber": 150, "priceListID": 2, "productID": [1, 3] },
+      { "name": "THIRD CLASS", "boatID": 2, "placesNumber": 100, "priceListID": 3, "productID": [1, 3] },
+      { "name": "VIP", "boatID": 2, "placesNumber": 40, "priceListID": 5, "productID": [1, 3] }
     ]
   },
   {
@@ -53,10 +23,10 @@
     "boatWeight": 1500,
     "supportedWeight": 1000,
     "boatClassList": [
-      { "name": "FIRST CLASS", "boatID": 3, "placesNumber": 250, "priceListID": 13 },
-      { "name": "SECOND CLASS", "boatID": 3, "placesNumber": 200, "priceListID": 14 },
-      { "name": "THIRD CLASS", "boatID": 3, "placesNumber": 120, "priceListID": 15 },
-      { "name": "VIP", "boatID": 3, "placesNumber": 60, "priceListID": 16 }
+      { "name": "FIRST CLASS", "boatID": 3, "placesNumber": 250, "priceListID": 1, "productID": [1, 3] },
+      { "name": "SECOND CLASS", "boatID": 3, "placesNumber": 200, "priceListID": 2, "productID": [1, 3] },
+      { "name": "THIRD CLASS", "boatID": 3, "placesNumber": 120, "priceListID": 3, "productID": [1, 3] },
+      { "name": "VIP", "boatID": 3, "placesNumber": 60, "priceListID": 5, "productID": [1, 3] }
     ]
   },
   {
@@ -68,10 +38,10 @@
     "boatWeight": 2000,
     "supportedWeight": 1500,
     "boatClassList": [
-      { "name": "FIRST CLASS", "boatID": 4, "placesNumber": 400, "priceListID": 17 },
-      { "name": "SECOND CLASS", "boatID": 4, "placesNumber": 300, "priceListID": 18 },
-      { "name": "THIRD CLASS", "boatID": 4, "placesNumber": 200, "priceListID": 19 },
-      { "name": "VIP", "boatID": 4, "placesNumber": 100, "priceListID": 20 }
+      { "name": "FIRST CLASS", "boatID": 4, "placesNumber": 400, "priceListID": 1, "productID": [1, 3] },
+      { "name": "SECOND CLASS", "boatID": 4, "placesNumber": 300, "priceListID": 2, "productID": [1, 3] },
+      { "name": "THIRD CLASS", "boatID": 4, "placesNumber": 200, "priceListID": 3, "productID": [1, 3] },
+      { "name": "VIP", "boatID": 4, "placesNumber": 100, "priceListID": 4, "productID": [1, 3] }
     ]
   }
 ]

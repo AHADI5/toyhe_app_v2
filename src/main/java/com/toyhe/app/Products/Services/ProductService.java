@@ -33,4 +33,8 @@ public record ProductService(
 
         return ResponseEntity.ok(ProductResponse.fromModel(products)) ;
     }
+
+    public boolean isDataBaseEmpty() {
+        return productRepository.count() == 0;
+    }
 }

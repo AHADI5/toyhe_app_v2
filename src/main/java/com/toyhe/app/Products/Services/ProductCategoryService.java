@@ -22,4 +22,8 @@ public record ProductCategoryService(
         return ResponseEntity.ok(ProductCategoryResponse.fromModel(productCategoryRepository.save(productCategorization)) ) ;
 
     }
+
+    public boolean isDataBaseEmpty() {
+        return productCategoryRepository.count() == 0;
+    }
 }
