@@ -55,6 +55,7 @@ public class SecurityConfiguration {
 
                 "https://toyhev2.netlify.app",
                 "http://localhost:5173"  ,
+                "http://localhost:3000/" ,
                 "https://console.cron-job.org"
 
         ));
