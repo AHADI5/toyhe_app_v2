@@ -1,10 +1,13 @@
 package com.toyhe.app.Tickets.Dtos;
 
+import com.toyhe.app.Customer.Dtos.Requests.CompanyCustomerRegisterRequest;
+import com.toyhe.app.Customer.Dtos.Requests.NonCompanyCustomerRegisterRequest;
+
 public record ReservationRequest(
-        String email  ,
-        String firstName ,
-        String lastName ,
-        String telephone ,
+        String customerId,
+        CompanyCustomerRegisterRequest  companyCustomerRegisterRequest,
+        NonCompanyCustomerRegisterRequest nonCompanyCustomerRegisterRequest,
+        boolean isCompany ,
         String operator,
         long tripID  ,
         long classID ,

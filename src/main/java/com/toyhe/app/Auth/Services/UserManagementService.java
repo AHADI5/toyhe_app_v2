@@ -1,11 +1,13 @@
 package com.toyhe.app.Auth.Services;
 
-import com.toyhe.app.Auth.Dtos.Requests.NewExternalUserRequest;
-import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.NewUserRequest;
 import com.toyhe.app.Auth.Dtos.Requests.UserRoleAssignementRequest;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
 import com.toyhe.app.Auth.Model.*;
 import com.toyhe.app.Auth.Repositories.UserRepository;
+import com.toyhe.app.Customer.Dtos.Requests.CompanyCustomerRegisterRequest;
+import com.toyhe.app.Customer.Models.CustomerType;
+import com.toyhe.app.Customer.Services.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,61 +22,43 @@ public class UserManagementService {
     private final PasswordEncoder passWordEncoder;
     final UserService userService;
     private final ApplicationContext context; // Added for proxy calls
+    final CustomerService customerService ;
+
 
     public UserManagementService(UserRepository userRepository,
                                  PasswordEncoder passWordEncoder,
                                  UserService userService,
                                  UserRoleService userRoleService,
-                                 ApplicationContext context) {
+
+                                 ApplicationContext context, CustomerService customerService) {
         this.userRepository = userRepository;
         this.passWordEncoder = passWordEncoder;
         this.userService = userService;
         this.context = context; // Initialize context
+        this.customerService = customerService;
     }
 
-    public NewAccountResponse createExternalUser(NewExternalUserRequest request) {
-        ExternalUser externalUser = ExternalUser.builder()
-                .email(request.email())
-                .password(passWordEncoder.encode(request.password()))
-                .enabled(true)
-                .createdAt(new Date())
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .phoneNumber(request.phoneNumber())
-                .gender(request.gender())
-                .dateOfBirth(request.dateOfBirth())
-                .build();
+    public  NewAccountResponse  createUser(NewUserRequest newUserRequest) {
+        if(newUserRequest.isCompany() && newUserRequest.companyCustomerRegisterRequest() != null) {
+            customerService.createCompanyCustomer( newUserRequest.companyCustomerRegisterRequest() , CustomerType.POTENTIAL_CUSTOMER) ;
+        }
 
+        if(!newUserRequest.isCompany() && newUserRequest.nonCompanyCustomerRegisterRequest() != null) {
+            customerService.createNonCompanyCustomer(newUserRequest.nonCompanyCustomerRegisterRequest() , CustomerType.POTENTIAL_CUSTOMER)  ;
+        }
 
-        ExternalUser savedExternalUser = userRepository.saveAndFlush(externalUser);
-
-        // Assign roles using proxy to ensure transactional behavior
-        assignRoleToAUser(savedExternalUser.getUsername(), request.rolesId());
-
-        return new NewAccountResponse(externalUser.getEmail(), externalUser.getPassword());
-    }
-
-    public NewAccountResponse createInUser(NewInUserRequest request) {
-        InUser inUser = InUser.builder()
-                .department(request.service())
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .phoneNumber(request.phoneNumber())
-                .email(request.email())
-                .password(passWordEncoder.encode(request.password()))
+        User newUser = User.builder()
+                .email(newUserRequest.email())
+                .password(passWordEncoder.encode(newUserRequest.password()))
+                .isCompany(newUserRequest.isCompany())
                 .enabled(true)
                 .createdAt(new Date())
                 .build();
-
-
-
-        InUser savedInUser = userRepository.saveAndFlush(inUser);
-
-        // Assign roles using proxy to ensure transactional behavior
-        assignRoleToAUser(savedInUser.getUsername(), request.rolesId());
-
-        return new NewAccountResponse(inUser.getEmail(), inUser.getPassword());
+        User savedUser = userRepository.saveAndFlush(newUser);
+        assignRoleToAUser(savedUser.getUsername(), newUserRequest.rolesId());
+        return  new  NewAccountResponse(newUser.getEmail(), newUser.getPassword());
     }
+
 
     public void assignRoleToAUser(String userName, List<Long> rolesId) {
         UserRoleAssignementRequest userRoleAssignementRequest = new UserRoleAssignementRequest(

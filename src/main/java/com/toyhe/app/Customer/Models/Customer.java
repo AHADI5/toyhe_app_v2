@@ -1,31 +1,33 @@
 package com.toyhe.app.Customer.Models;
 
+import com.toyhe.app.Auth.Model.Address;
 import com.toyhe.app.Tickets.Model.Ticket;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
-@Builder
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public abstract class Customer {
     @Id
-    @GeneratedValue
-    long customerID   ;
-    String customerName ;
-    String customerEmail ;
-    String customerAddress ;
-    String phoneNumber ;
-    long tripsNumber  ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long customerID;
+    private String customerName;
+    private String customerEmail;
+    private String phoneNumber;
+    private long tripsNumber;
+    @Enumerated(EnumType.STRING)
+    private CustomerType customerType;
+    @OneToOne
+    private Address address;
     @OneToMany(mappedBy = "customer")
-    List<Ticket> tickets ;
+    private List<Ticket> tickets;
+    private boolean  isCompany  ;
 }

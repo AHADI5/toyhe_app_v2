@@ -1,7 +1,6 @@
 package com.toyhe.app.Auth.Controller.UserManagement;
 
-import com.toyhe.app.Auth.Dtos.Requests.NewExternalUserRequest;
-import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.NewUserRequest;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
 import com.toyhe.app.Auth.Services.UserManagementService;
 import com.toyhe.app.Auth.config.CheckAccess;
@@ -16,22 +15,13 @@ public record UserManagementController(
         CheckAccess   checkAccess
 ) {
     static  String modelName = "USER" ;
-    @PostMapping("/in_user")
+    @PostMapping("/")
     public NewAccountResponse registerNewInAccount(@RequestBody
-                                                   NewInUserRequest newInUserRequest ,
+                                                       NewUserRequest newUserRequest ,
                                                    HttpServletRequest httpServletRequest
                                                    ) {
-        checkAccess.checkAccess(httpServletRequest, "INUSER", "WRITE_UPDATE");
-        return userManagementService.createInUser(newInUserRequest);
-
-    }
-
-    @PostMapping("/external_user")
-    public NewAccountResponse registerExternalUser (@RequestBody
-                                                    NewExternalUserRequest newExternalUserRequest  ,
-                                                    HttpServletRequest httpServletRequest) {
         checkAccess.checkAccess(httpServletRequest, modelName, "WRITE_UPDATE");
-        return userManagementService.createExternalUser(newExternalUserRequest);
+        return userManagementService.createUser(newUserRequest);
     }
 
     @GetMapping("/test")

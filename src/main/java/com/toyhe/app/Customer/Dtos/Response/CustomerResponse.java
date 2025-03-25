@@ -1,5 +1,6 @@
 package com.toyhe.app.Customer.Dtos.Response;
 
+import com.toyhe.app.Auth.Dtos.Responses.AddressResponse;
 import com.toyhe.app.Customer.Models.Customer;
 import com.toyhe.app.Tickets.Dtos.OperatorResponse;
 import com.toyhe.app.Tickets.Dtos.ReservationResponse;
@@ -11,7 +12,7 @@ public record CustomerResponse(
         long customerID,
         String customerName,
         String customerEmail,
-        String customerAddress,
+        AddressResponse address,
         String phoneNumber,
         long tripsNumber,
         List<ReservationResponse> tickets
@@ -22,7 +23,7 @@ public record CustomerResponse(
                 customer.getCustomerID(),
                 customer.getCustomerName(),
                 customer.getCustomerEmail(),
-                customer.getCustomerAddress(),
+                AddressResponse.fromEntity(customer.getAddress()),
                 customer.getPhoneNumber(),
                 customer.getTripsNumber(),
                 customer.getTickets() != null ? customer.getTickets().stream()

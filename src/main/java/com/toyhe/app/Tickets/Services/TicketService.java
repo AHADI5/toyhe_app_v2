@@ -2,6 +2,7 @@ package com.toyhe.app.Tickets.Services;
 
 import com.toyhe.app.Auth.Repositories.UserRepository;
 import com.toyhe.app.Customer.Models.Customer;
+import com.toyhe.app.Customer.Models.CustomerType;
 import com.toyhe.app.Customer.Services.CustomerService;
 import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Flotte.Repositories.BoatClassRepository;
@@ -51,25 +52,25 @@ public record TicketService(
             return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
         }
 
-        Customer customer = customerService.getCustomerByCustomerEmail(request.email());
-        if (customer == null) {
+        Optional<Customer> customer = customerService.customerRepository().findById(Integer.valueOf(request.customerId()));
+        if (customer.isEmpty()) {
             log.info("Customer not found");
-            customer = createNewCustomer(request);
+
+            customer = Optional.of(createNewCustomer(request));
 
         }
 
-        Ticket ticket = createTicket(customer, trip, request);
+        Ticket ticket = createTicket(customer.get(), trip, request);
         return ResponseEntity.ok(ReservationResponse.toDto(ticket ,operatorResponse));
     }
 
     private Customer createNewCustomer(ReservationRequest request) {
-        Customer newCustomer = Customer.builder()
-                .customerName(request.firstName() + " " + request.lastName())
-                .customerEmail(request.email())
-                .phoneNumber(request.telephone())
-                .build();
-        log.info("New customer created");
-        return customerService.customerRepository().save(newCustomer);
+        if (request.isCompany()) {
+            return  customerService.createCompanyCustomer(request.companyCustomerRegisterRequest(),  CustomerType.CUSTOMER) ;
+        } else {
+            return customerService.createNonCompanyCustomer(request.nonCompanyCustomerRegisterRequest() , CustomerType.CUSTOMER);
+        }
+
     }
 
 

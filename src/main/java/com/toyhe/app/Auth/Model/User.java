@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -28,11 +27,9 @@ public class User implements UserDetails {
 
     @Column(unique = true, name = "user_name", nullable = false)
     private String email;
-
     private String password;
-
+    private boolean isCompany  ;
     private boolean enabled;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
 

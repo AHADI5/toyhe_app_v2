@@ -39,15 +39,13 @@ public class AdminUserInitializer {
 
             if (user.isEmpty()) {
                 // Create the admin user
-                InUser adminUser = InUser.builder()
-                        .firstName("Admin")
-                        .lastName("User")
+                User adminUser = User.builder()
                         .email(adminEmail)
                         .password(passwordEncoder.encode("AdminPass2024!"))
-                        .phoneNumber("0790000000")
+                        .isCompany(false)
                         .enabled(true)
                         .build();
-                InUser admin = userRepository.saveAndFlush(adminUser); // Force flush
+                User admin = userRepository.saveAndFlush(adminUser); // Force flush
                 System.out.println("Admin user created successfully.");
 
                 // Create Admin Role

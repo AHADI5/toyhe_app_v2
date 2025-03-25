@@ -1,7 +1,7 @@
 package com.toyhe.app;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.NewUserRequest;
 import com.toyhe.app.Auth.Dtos.Requests.UserRoleRequest;
 import com.toyhe.app.Auth.Services.UserManagementService;
 import com.toyhe.app.Auth.Services.UserRoleService;
@@ -87,27 +87,27 @@ public class DataInitializer implements CommandLineRunner {
 
         // Initialize Product data only if the product table is empty
         if (userManagementService.isDatabaseEmpty()) {
-            loadAndInitializeData("src/main/resources/data/users.json", NewInUserRequest.class, userManagementService::createInUser);
+            loadAndInitializeData("src/main/resources/data/users.json", NewUserRequest.class, userManagementService::createUser);
         }
 
         if (productCategoryService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/productCategory.json" , ProductCategoryRequest.class  ,productCategoryService::createProductCategory);
         }
+        if(priceService.isDataBaseEmpty()) {
+            loadAndInitializeData("src/main/resources/data/prices.json" , PriceRequest.class  , priceService::createPrice);
+        }
         if (productService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/products.json"  , ProductRequest.class, productService::createProduct);
         }
 
-        if (!boatService.isDataBaseEmpty()){
+        if (boatService.isDataBaseEmpty()){
             loadAndInitializeData("src/main/resources/data/boats.json" , BoatRegisterRequest.class  , boatService::registerBoat);
-        }
-
-        if(priceService.isDataBaseEmpty()) {
-            loadAndInitializeData("src/main/resources/data/prices.json" , PriceRequest.class  , priceService::createPrice);
         }
 
         if(routeService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/route.json" , RouteRegisterRequest.class ,  routeService::registerRoute);
         }
+
 
         if (tripService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/trips.json" , TripRegisterRequest.class  ,  tripService::registerTrip);
@@ -116,13 +116,11 @@ public class DataInitializer implements CommandLineRunner {
         if(departmentService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/departments.json" , DepartmentRegisterRequest.class  , departmentService::createDepartment);
         }
-
-        if(employeeService.isDataBaseEmpty()) {
-            loadAndInitializeData("src/main/resources/data/employees.json" , EmployeeRequest.class  , employeeService::createEmployee);
-        }
-
         if(positionService.isDataBaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/position.json" , PositionRequest.class  , positionService::createPosition);
+        }
+        if(employeeService.isDataBaseEmpty()) {
+            loadAndInitializeData("src/main/resources/data/employees.json" , EmployeeRequest.class  , employeeService::createEmployee);
         }
 
         if (ticketService.isDataBaseEmpty()) {

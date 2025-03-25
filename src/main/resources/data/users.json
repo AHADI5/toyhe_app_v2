@@ -1,67 +1,23 @@
-[
-  {
-    "firstName": "VISITEUR",
-    "lastName": "POTENTIEL",
-    "role": "CLIENT_POTENTIEL",
-    "address": {},
-    "email": "client_potentiel@silimu.com",
-    "password": "1234",
-    "rolesId": [1],
-    "phoneNumber": "0991000001",
-    "dateOfBirth": "1995-06-10",
-    "gender": "M",
-    "service": "INFORMATION"
+{
+  "email": "alice.smith@example.com",
+  "password": "AliceSecure123!",
+  "rolesId": [2],
+  "isCompany": false,
+  "nonCompanyCustomerRegisterRequest": {
+    "customerName": "Alice Smith",
+    "customerEmail": "alice.smith@example.com",
+    "phoneNumber": "+1122334455",
+    "dateOfBirth": "1995-09-20",
+    "placeOfBirth": "Los Angeles",
+    "nationality": "American",
+    "addressRequest": {
+      "quarter": "Sunset",
+      "town": "Los Angeles",
+      "commune": "West Hollywood",
+      "avenue": "Sunset Boulevard",
+      "province": "California",
+      "number": "102"
+    }
   },
-  {
-    "firstName": "UTILISATEUR",
-    "lastName": "ACTIF",
-    "role": "CLIENT",
-    "address": {},
-    "email": "client@silimu.com",
-    "password": "1234",
-    "rolesId": [2],
-    "phoneNumber": "0991000002",
-    "dateOfBirth": "1990-04-22",
-    "gender": "F",
-    "service": "RESERVATION"
-  },
-  {
-    "firstName": "BILLET",
-    "lastName": "GUICHETIER",
-    "role": "GUICHETIER",
-    "address": {},
-    "email": "guichetier@silimu.com",
-    "password": "1234",
-    "rolesId": [3],
-    "phoneNumber": "0991000003",
-    "dateOfBirth": "1985-12-15",
-    "gender": "M",
-    "service": "VENTE"
-  },
-  {
-    "firstName": "LEADER",
-    "lastName": "AGENCE",
-    "role": "DG",
-    "address": {},
-    "email": "dg@silimu.com",
-    "password": "1234",
-    "rolesId": [4],
-    "phoneNumber": "0991000004",
-    "dateOfBirth": "1975-02-08",
-    "gender": "M",
-    "service": "DIRECTION GENERALE"
-  },
-  {
-    "firstName": "FINANCE",
-    "lastName": "MANAGER",
-    "role": "DAF",
-    "address": {},
-    "email": "daf@silimu.com",
-    "password": "1234",
-    "rolesId": [5],
-    "phoneNumber": "0991000005",
-    "dateOfBirth": "1980-09-30",
-    "gender": "F",
-    "service": "FINANCE"
-  }
-]
+  "companyCustomerRegisterRequest": null
+}

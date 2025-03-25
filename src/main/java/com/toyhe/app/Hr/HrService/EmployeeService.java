@@ -1,6 +1,6 @@
 package com.toyhe.app.Hr.HrService;
 
-import com.toyhe.app.Auth.Dtos.Requests.NewInUserRequest;
+import com.toyhe.app.Auth.Dtos.Requests.NewUserRequest;
 import com.toyhe.app.Auth.Dtos.Responses.NewAccountResponse;
 import com.toyhe.app.Auth.Services.UserManagementService;
 import com.toyhe.app.Hr.Dtos.Requests.EmployeeRequest;
@@ -46,18 +46,16 @@ public record EmployeeService(
 
     public ResponseEntity<NewAccountResponse> createUserFromEmployee (long employeeID) {
         Employee  employee  = getEmployee((int) employeeID) ;
-        NewInUserRequest newInUserRequest  = new NewInUserRequest(
+        NewUserRequest newInUserRequest  = new NewUserRequest(
                 employee.getFirstName()  ,
                 employee.getLastName() ,
-                employee.getEmail(),
-                "123456",
                 new ArrayList<>() ,
-                employee.getPhone() ,
-                "" ,
-                "" ,
-                ""
+                false,
+                null ,
+                null
+
         )  ;
-        return  ResponseEntity.ok(userManagementService.createInUser(newInUserRequest));
+        return  ResponseEntity.ok(userManagementService.createUser(newInUserRequest));
     }
 
 
