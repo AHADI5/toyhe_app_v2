@@ -1,4 +1,5 @@
-{
+[
+  {
   "email": "alice.smith@example.com",
   "password": "AliceSecure123!",
   "rolesId": [2],
@@ -21,3 +22,5 @@
   },
   "companyCustomerRegisterRequest": null
 }
+
+]

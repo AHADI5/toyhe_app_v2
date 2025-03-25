@@ -85,7 +85,6 @@ public class DataInitializer implements CommandLineRunner {
             loadAndInitializeData("src/main/resources/data/roles.json", UserRoleRequest.class, userRoleService::createUserRole);
         }
 
-        // Initialize Product data only if the product table is empty
         if (userManagementService.isDatabaseEmpty()) {
             loadAndInitializeData("src/main/resources/data/users.json", NewUserRequest.class, userManagementService::createUser);
         }

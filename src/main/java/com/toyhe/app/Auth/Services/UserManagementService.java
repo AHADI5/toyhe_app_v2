@@ -70,6 +70,6 @@ public class UserManagementService {
     }
 
     public boolean isDatabaseEmpty() {
-        return userRepository.count() == 0;
+        return userRepository.count() == 1;
     }
 }
