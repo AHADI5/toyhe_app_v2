@@ -1,6 +1,7 @@
 package com.toyhe.app.Flotte.Dtos.BoatClasses;
 
 import com.toyhe.app.Flotte.Models.BoatClass;
+import com.toyhe.app.Price.Dtos.PriceResponse;
 import com.toyhe.app.Products.Dtos.ProductResponse;
 
 import java.util.List;
@@ -11,9 +12,11 @@ public record BoatClassResponse(
         String name  ,
         long boatID ,
         String boatName  ,
-        double priceListID,
+        PriceResponse priceResponse   ,
         int placeAvailable ,
         List<ProductResponse> productResponseList
+
+
 
 ) {
     public static BoatClassResponse fromBoatClassToDTO(BoatClass boatClass) {
@@ -22,7 +25,7 @@ public record BoatClassResponse(
                 boatClass.getName()  ,
                 boatClass.getBoat().getBoatID()  ,
                 boatClass.getBoat().getName()  ,
-                boatClass.getPriceModel() == null  ? 0  : boatClass.getPriceModel().getPriceID(),
+                boatClass.getPriceModel() == null  ?  null : PriceResponse.toPriceResponse(boatClass.getPriceModel()),
                 boatClass.getPlacesNumber() ,
                 boatClass.getProducts()  != null
                         ? boatClass.getProducts().stream()
