@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/av1/customers")
+@RequestMapping("api/v1/customers")
 public record CustomerControllers(
         CustomerService customerService ,
         OperatorResponse  operatorResponse
