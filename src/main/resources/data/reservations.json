@@ -7,7 +7,14 @@
     "operator": "gloireahad@gmail.com",
     "tripID": 2,
     "classID": 1,
-    "note": "With bagages"
+    "note": "With bagages",
+    "goods": [
+      {
+        "weight": 10.5,
+        "volumes": 0.3,
+        "description": "Backpack"
+      }
+    ]
   },
   {
     "email": "john@example.com",
@@ -17,7 +24,8 @@
     "operator": "emmanuelm@gmail.com",
     "tripID": 3,
     "classID": 2,
-    "note": "No bagages"
+    "note": "No bagages",
+    "goods": []
   },
   {
     "email": "sara@example.com",
@@ -27,7 +35,14 @@
     "operator": "sarahkanyamihigo@gmail.com",
     "tripID": 4,
     "classID": 3,
-    "note": "With a pet"
+    "note": "With a pet",
+    "goods": [
+      {
+        "weight": 5.0,
+        "volumes": 0.2,
+        "description": "Pet cage"
+      }
+    ]
   },
   {
     "email": "lucas@example.com",
@@ -37,7 +52,14 @@
     "operator": "davidniyon@gmail.com",
     "tripID": 5,
     "classID": 4,
-    "note": "VIP class"
+    "note": "VIP class",
+    "goods": [
+      {
+        "weight": 2.5,
+        "volumes": 0.1,
+        "description": "Briefcase"
+      }
+    ]
   },
   {
     "email": "emily@example.com",
@@ -47,6 +69,18 @@
     "operator": "rachelbimen@gmail.com",
     "tripID": 6,
     "classID": 1,
-    "note": "Business trip, with luggage"
+    "note": "Business trip, with luggage",
+    "goods": [
+      {
+        "weight": 15.0,
+        "volumes": 0.5,
+        "description": "Suitcase"
+      },
+      {
+        "weight": 3.0,
+        "volumes": 0.2,
+        "description": "Laptop bag"
+      }
+    ]
   }
 ]

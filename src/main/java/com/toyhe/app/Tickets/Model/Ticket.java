@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,4 +37,8 @@ public class Ticket {
     @ManyToOne
     BoatClass boatClass ;
     Double price ;
+    @OneToMany(mappedBy = "ticket")
+    List<Goods> goods ;
+
+
 }

@@ -3,6 +3,8 @@ package com.toyhe.app.Tickets.Dtos;
 import com.toyhe.app.Customer.Dtos.Requests.CompanyCustomerRegisterRequest;
 import com.toyhe.app.Customer.Dtos.Requests.NonCompanyCustomerRegisterRequest;
 
+import java.util.List;
+
 public record ReservationRequest(
         String customerId,
         CompanyCustomerRegisterRequest  companyCustomerRegisterRequest,
@@ -11,6 +13,7 @@ public record ReservationRequest(
         String operator,
         long tripID  ,
         long classID ,
-        String note
+        String note ,
+        List<GoodsRegisterRequest> goodsList
 ) {
 }

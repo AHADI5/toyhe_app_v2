@@ -7,10 +7,13 @@ import com.toyhe.app.Customer.Services.CustomerService;
 import com.toyhe.app.Flotte.Models.BoatClass;
 import com.toyhe.app.Flotte.Repositories.BoatClassRepository;
 import com.toyhe.app.Flotte.Services.BoatClassService;
+import com.toyhe.app.Tickets.Dtos.GoodsRegisterRequest;
 import com.toyhe.app.Tickets.Dtos.OperatorResponse;
 import com.toyhe.app.Tickets.Dtos.ReservationRequest;
 import com.toyhe.app.Tickets.Dtos.ReservationResponse;
+import com.toyhe.app.Tickets.Model.Goods;
 import com.toyhe.app.Tickets.Model.Ticket;
+import com.toyhe.app.Tickets.Repository.GoodsRepository;
 import com.toyhe.app.Tickets.Repository.TicketRepository;
 import com.toyhe.app.Trips.Models.Trip;
 import com.toyhe.app.Trips.Reposiory.TripRepository;
@@ -34,7 +37,8 @@ public record TicketService(
         TripRepository tripRepository ,
         OperatorResponse operatorResponse ,
         BoatClassRepository boatClassRepository ,
-        TripService tripService
+        TripService tripService ,
+        GoodsRepository  goodsRepository
 ) {
 
     public ResponseEntity<ReservationResponse> ticketReservation(ReservationRequest request) {
@@ -73,7 +77,19 @@ public record TicketService(
 
     }
 
-
+    private List<Goods> registerGoods(List<GoodsRegisterRequest> goods , Ticket ticket) {
+        List<Goods> goodsList = new ArrayList<>();
+        for (GoodsRegisterRequest goodsRegisterRequest : goods) {
+            Goods goodsItem = Goods.builder()
+                    .ticket(ticket)
+                    .volume(goodsRegisterRequest.volumes())
+                    .weight(goodsRegisterRequest.weight())
+                    .description(goodsRegisterRequest.description())
+                    .build();
+            goodsList.add(goodsItem);
+        }
+        return goodsRepository.saveAll(goodsList);
+    }
     private Ticket createTicket(Customer customer, Trip trip, ReservationRequest request) {
         BoatClass boatClass = trip.getBoatClasses().stream()
                 .filter(bc -> bc.getBoatClassID() == request.classID())
@@ -93,6 +109,14 @@ public record TicketService(
                 .build();
 
         ticket = ticketRepository.save(ticket);
+        //TODO : Register goods on this ticket
+
+        if (request.goodsList() != null) {
+            List<Goods> goods = registerGoods(request.goodsList(), ticket);
+            ticket.setGoods(goods);
+            ticket = ticketRepository.save(ticket);
+        }
+
         tripService.updateTripSeats(trip);
         return ticket;
     }

@@ -1,8 +1,11 @@
 package com.toyhe.app.Tickets.Dtos;
 
+import com.toyhe.app.Flotte.Dtos.BoatClasses.BoatClassResponse;
 import com.toyhe.app.Tickets.Model.Ticket;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record ReservationResponse(
         String customerName ,
@@ -13,7 +16,8 @@ public record ReservationResponse(
         String boatName  ,
         String className  ,
         double price ,
-        Operator operator
+        Operator operator ,
+        List<GoodsRegisterResponse> goods
 ) {
     public static ReservationResponse toDto(Ticket ticket , OperatorResponse operatorResponse) {
 
@@ -26,9 +30,10 @@ public record ReservationResponse(
                 ticket.getTrip().getBoat().getName()  ,
                 ticket.getBoatClass().getName()  ,
                 ticket.getBoatClass().getPriceModel() == null ? 0 : ticket.getBoatClass().getPriceModel().getAmount() ,
-                operatorResponse.fromEmail(ticket.getOperator())
-
-
+                operatorResponse.fromEmail(ticket.getOperator()) ,
+                ticket.getGoods() == null ?  null  : ticket.getGoods().stream()
+                        .map(GoodsRegisterResponse::fromEntity)
+                        .collect(Collectors.toList())
         ) ;
     }
 

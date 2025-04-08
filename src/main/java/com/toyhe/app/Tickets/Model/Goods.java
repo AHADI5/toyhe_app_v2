@@ -1,8 +1,6 @@
 package com.toyhe.app.Tickets.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +19,6 @@ public class Goods {
     private double weight;
     private double volume;
     private String description;
+    @ManyToOne
+    Ticket  ticket;
 }
