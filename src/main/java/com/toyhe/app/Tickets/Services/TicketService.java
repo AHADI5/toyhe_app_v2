@@ -52,9 +52,9 @@ public record TicketService(
         Optional<BoatClass> boatClass = boatClassRepository.findById(request.classID())  ;
 
 
-        if (trip.getAvailableSeats() == 0 && trip.getTag() != 0) {
-            return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
-        }
+//        if (trip.getAvailableSeats() == 0 && trip.getTag() != 0) {
+//            return ResponseEntity.badRequest().body(ReservationResponse.toDto(new Ticket() , operatorResponse));
+//        }
 
         Optional<Customer> customer = customerService.customerRepository().findById(Integer.valueOf(request.customerId()));
         if (customer.isEmpty()) {
