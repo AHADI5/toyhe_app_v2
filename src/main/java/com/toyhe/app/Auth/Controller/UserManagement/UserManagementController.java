@@ -24,6 +24,11 @@ public record UserManagementController(
         return userManagementService.createUser(newUserRequest);
     }
 
+    @PostMapping("newAccount/")
+    public NewAccountResponse registerNewAccount(@RequestBody NewUserRequest newUserRequest) {
+        return userManagementService.createUser(newUserRequest) ;
+    }
+
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Test successful , with deployment");
